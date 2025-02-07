@@ -10,19 +10,19 @@ class EngineModel(pdt.BaseModel):
         str,
         pdt.Field(
             description=(
-                'An identifier (PK, UUID or full label) of a configured `Code`.'
+                "An identifier (PK, UUID or full label) of a configured `Code`."
             ),
             json_schema_extra={
-                'iri': 'https://example.com/schemas/engine/code',
+                "iri": "https://example.com/schemas/engine/code",
             },
         ),
     ]
     options: t.Annotated[
         dict[str, t.Any],
         pdt.Field(
-            description='A dictionary of metadata options for the engine.',
+            description="A dictionary of metadata options for the engine.",
             json_schema_extra={
-                'iri': 'https://example.com/schemas/engine/options',
+                "iri": "https://example.com/schemas/engine/options",
             },
         ),
     ]

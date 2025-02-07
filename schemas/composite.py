@@ -45,8 +45,8 @@ class CompositeInputsModel(pdt.BaseModel, t.Generic[T]):
     def _validate_sub_process_class(self, sub_process_entry_point: str):
         if not sub_process_entry_point.startswith("common_workflows.relax."):
             raise ValueError(
-                f'`sub_process_class` should start with "common_workflows.relax.", got '
-                f'"{sub_process_entry_point}"'
+                f"`sub_process_class` should start with 'common_workflows.relax.', got "
+                f"'{sub_process_entry_point}'"
             )
         return sub_process_entry_point
 
@@ -56,8 +56,8 @@ class CompositeInputsModel(pdt.BaseModel, t.Generic[T]):
         for key in sub_process_dict:
             if not hasattr(workchain, key):
                 raise ValueError(
-                    f'Invalid input key "{key}" for sub-process class'
-                    f'"{self.sub_process_class}"'
+                    f"Invalid input key '{key}' for sub-process class"
+                    f"'{self.sub_process_class}'"
                 )
 
 

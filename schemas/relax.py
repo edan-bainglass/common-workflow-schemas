@@ -32,8 +32,8 @@ class CommonRelaxInputsModel(pdt.BaseModel):
             description=(
                 "A single string summarizing the computational accuracy of the "
                 "underlying DFT calculation and relaxation algorithm. Three protocol "
-                'names are defined and implemented for each code: "fast", "moderate" '
-                'and "precise". The details of how each implementation translates a '
+                "names are defined and implemented for each code: 'fast', 'moderate' "
+                "and 'precise'. The details of how each implementation translates a "
                 "protocol string into a choice of parameters is code dependent, or "
                 "more specifically, they depend on the implementation choices of the "
                 "corresponding AiiDA plugin."
@@ -58,10 +58,10 @@ class CommonRelaxInputsModel(pdt.BaseModel):
             description=(
                 "The type of relaxation to perform, ranging from the relaxation of "
                 "only atomic coordinates to the full cell relaxation for extended "
-                'systems. The complete list of supported options is: "none", '
-                '"positions", "volume", "shape", "cell", "positions_cell", '
-                '"positions_volume", "positions_shape". Each name indicates the '
-                'physical quantities allowed to relax. For instance, "positions_shape" '
+                "systems. The complete list of supported options is: 'none', "
+                "'positions', 'volume', 'shape', 'cell', 'positions_cell', "
+                "'positions_volume', 'positions_shape'. Each name indicates the "
+                "physical quantities allowed to relax. For instance, 'positions_shape' "
                 "corresponds to a relaxation where both the shape of the cell and the "
                 "atomic coordinates are relaxed, but not the volume; in other words, "
                 "this option indicates a geometric optimization at constant volume. "
@@ -114,8 +114,8 @@ class CommonRelaxInputsModel(pdt.BaseModel):
         pdt.Field(
             description=(
                 "An optional string to signal whether to perform the simulation for a "
-                'metallic or an insulating system. It accepts only the "insulator" and '
-                '"metal" values. This input is relevant only for calculations on '
+                "metallic or an insulating system. It accepts only the 'insulator' and "
+                "'metal' values. This input is relevant only for calculations on "
                 "extended systems. In case such option is not specified, the "
                 "calculation is assumed to be metallic which is the safest assumption."
             ),
@@ -133,7 +133,7 @@ class CommonRelaxInputsModel(pdt.BaseModel):
         pdt.Field(
             description=(
                 "An optional string to specify the spin degree of freedom for the "
-                'calculation. It accepts the values "none" or "collinear". These will '
+                "calculation. It accepts the values 'none' or 'collinear'. These will "
                 "be extended in the future to include, for instance, non-collinear "
                 "magnetism and spin-orbit coupling. The default is to run the "
                 "calculation without spin polarization."

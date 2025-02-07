@@ -13,29 +13,29 @@ class DcCommonRelaxInputsModel(CommonRelaxInputsModel):
     relax_type: t.Annotated[
         str,
         pdt.Field(
-            'none',
+            "none",
             frozen=True,
             description=(
-                'This field is fixed to "none" denoting a single-point calculation.'
+                "This field is fixed to 'none' denoting a single-point calculation."
             ),
         ),
-    ] = 'none'
+    ] = "none"
 
 
 class DcInputModel(CompositeInputsModel[DcCommonRelaxInputsModel]):
     molecule: t.Annotated[
         orm.StructureData,
         pdt.Field(
-            description='The input molecule',
+            description="The input molecule",
         ),
     ]
     distances: t.Annotated[
         list[pdt.PositiveFloat] | None,
         pdt.Field(
             description=(
-                'The distances, in Ångstrom, at which the dissociation curve should be '
-                'computed. This input is optional since the distances can be also set '
-                'via the `distance_count` input.'
+                "The distances, in Ångstrom, at which the dissociation curve should be "
+                "computed. This input is optional since the distances can be also set "
+                "via the `distance_count` input."
             ),
         ),
     ] = None
@@ -44,10 +44,10 @@ class DcInputModel(CompositeInputsModel[DcCommonRelaxInputsModel]):
         pdt.Field(
             default=20,
             description=(
-                'The number of distances at which the dissociation curve should be '
-                'computed, used in conjunction with `distance_min` and `distance_max`. '
-                'This input is optional since the distances can be also set via the '
-                '`distances` input.'
+                "The number of distances at which the dissociation curve should be "
+                "computed, used in conjunction with `distance_min` and `distance_max`. "
+                "This input is optional since the distances can be also set via the "
+                "`distances` input."
             ),
         ),
     ] = 20
@@ -56,10 +56,10 @@ class DcInputModel(CompositeInputsModel[DcCommonRelaxInputsModel]):
         pdt.Field(
             default=0.5,
             description=(
-                'The minimum distance, in Ångstrom, at which the dissociation curve  '
-                'should be computed, used in conjunction with `distance_max` and  '
-                '`distance_count`. This input is optional since the distances can be  '
-                'also set via the `distances` input.'
+                "The minimum distance, in Ångstrom, at which the dissociation curve  "
+                "should be computed, used in conjunction with `distance_max` and  "
+                "`distance_count`. This input is optional since the distances can be  "
+                "also set via the `distances` input."
             ),
         ),
     ] = 0.5
@@ -68,19 +68,19 @@ class DcInputModel(CompositeInputsModel[DcCommonRelaxInputsModel]):
         pdt.Field(
             default=3,
             description=(
-                'The maximum distance, in Ångstrom, at which the dissociation curve '
-                'should be computed, used in conjunction with `distance_min` and '
-                '`distance_count`. This input is optional since the distances can be '
-                'also set via the `distances` input.'
+                "The maximum distance, in Ångstrom, at which the dissociation curve "
+                "should be computed, used in conjunction with `distance_min` and "
+                "`distance_count`. This input is optional since the distances can be "
+                "also set via the `distances` input."
             ),
         ),
     ] = 3
 
-    @pdt.model_validator(mode='before')
+    @pdt.model_validator(mode="before")
     def _validate_min_max_distance(self, data: dict):
         if self.distance_min >= self.distance_max:
             raise ValueError(
-                'The minimum distance should be smaller than the maximum distance'
+                "The minimum distance should be smaller than the maximum distance"
             )
         return self
 
@@ -90,8 +90,8 @@ class DcOutputModel(CompositeOutputsModel):
         list[pdt.PositiveFloat],
         pdt.Field(
             description=(
-                'The distances, in Ångstrom, at which the dissociation curve was '
-                'computed.'
+                "The distances, in Ångstrom, at which the dissociation curve was "
+                "computed."
             ),
         ),
     ]
