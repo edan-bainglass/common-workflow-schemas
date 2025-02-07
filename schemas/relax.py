@@ -181,6 +181,18 @@ class CommonRelaxInputsModel(
     ]
 
 
+class RelaxInputsModel(CommonRelaxInputsModel):
+    structure: t.Annotated[
+        orm.StructureData,
+        pdt.Field(
+            description="The structure to relax.",
+            json_schema_extra={
+                "iri": "https://example.com/schemas/relax/structure",
+            },
+        ),
+    ]
+
+
 class RelaxOutputsModel(
     pdt.BaseModel,
     WithArbitraryTypes,
