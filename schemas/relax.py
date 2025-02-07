@@ -7,9 +7,13 @@ from aiida import orm
 from numpy.typing import NDArray
 
 from .engine import EngineModel
+from .utils import WithArbitraryTypes
 
 
-class CommonRelaxInputsModel(pdt.BaseModel):
+class CommonRelaxInputsModel(
+    pdt.BaseModel,
+    WithArbitraryTypes,
+):
     engines: t.Annotated[
         dict[str, EngineModel],
         pdt.Field(
@@ -177,7 +181,10 @@ class CommonRelaxInputsModel(pdt.BaseModel):
     ]
 
 
-class RelaxOutputsModel(pdt.BaseModel):
+class RelaxOutputsModel(
+    pdt.BaseModel,
+    WithArbitraryTypes,
+):
     forces: t.Annotated[
         NDArray,
         pdt.Field(

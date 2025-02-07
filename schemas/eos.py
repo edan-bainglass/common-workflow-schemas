@@ -7,6 +7,7 @@ from aiida import orm
 
 from .composite import CompositeInputsModel, CompositeOutputsModel
 from .relax import CommonRelaxInputsModel
+from .utils import WithArbitraryTypes
 
 
 class EosCommonRelaxInputsModel(CommonRelaxInputsModel):
@@ -26,7 +27,10 @@ class EosCommonRelaxInputsModel(CommonRelaxInputsModel):
     ]
 
 
-class EosInputsModel(CompositeInputsModel[EosCommonRelaxInputsModel]):
+class EosInputsModel(
+    CompositeInputsModel[EosCommonRelaxInputsModel],
+    WithArbitraryTypes,
+):
     structure: t.Annotated[
         orm.StructureData,
         pdt.Field(description="The input structure"),
@@ -39,10 +43,12 @@ class EosInputsModel(CompositeInputsModel[EosCommonRelaxInputsModel]):
                 "structure should be computed. This input is optional since the scale "
                 "factors can be also set via the `scale_count` and `scale_increment` "
                 "inputs."
-            )
+            ),
+            json_schema_extra={
+                "iri": "https://example.com/schemas/eos/scale_factors",
+            },
         ),
     ]
-    # TODO does this (and increment) need to be AiiDA types?
     scale_count: t.Annotated[
         pdt.PositiveInt | None,
         pdt.Field(
@@ -51,7 +57,10 @@ class EosInputsModel(CompositeInputsModel[EosCommonRelaxInputsModel]):
                 "the structure should be computed, used in conjunction with "
                 "`scale_increment`. This input is optional since the scale factors can "
                 "be also set via the `scale_factors` input."
-            )
+            ),
+            json_schema_extra={
+                "iri": "https://example.com/schemas/eos/scale_count",
+            },
         ),
     ]
     scale_increment: t.Annotated[
@@ -62,7 +71,10 @@ class EosInputsModel(CompositeInputsModel[EosCommonRelaxInputsModel]):
                 "total energy of the structure should be computed, used in conjunction "
                 "with `scale_count`. This input is optional since the scale factors "
                 "can be also set via the `scale_factors` input."
-            )
+            ),
+            json_schema_extra={
+                "iri": "https://example.com/schemas/eos/scale_increment",
+            },
         ),
     ]
 
@@ -88,8 +100,13 @@ class EosInputsModel(CompositeInputsModel[EosCommonRelaxInputsModel]):
         return scale_factors
 
 
-class EosOutputsModel(CompositeOutputsModel):
+class EosOutputsModel(
+    CompositeOutputsModel,
+    WithArbitraryTypes,
+):
     structures: t.Annotated[
         list[orm.StructureData],
-        pdt.Field(description="The list of relaxed structures."),
+        pdt.Field(
+            description="The list of relaxed structures.",
+        ),
     ]

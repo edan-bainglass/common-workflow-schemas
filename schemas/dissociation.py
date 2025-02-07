@@ -7,6 +7,7 @@ from aiida import orm
 
 from .composite import CompositeInputsModel, CompositeOutputsModel
 from .relax import CommonRelaxInputsModel
+from .utils import WithArbitraryTypes
 
 
 class DcCommonRelaxInputsModel(CommonRelaxInputsModel):
@@ -22,7 +23,10 @@ class DcCommonRelaxInputsModel(CommonRelaxInputsModel):
     ] = "none"
 
 
-class DcInputModel(CompositeInputsModel[DcCommonRelaxInputsModel]):
+class DcInputModel(
+    CompositeInputsModel[DcCommonRelaxInputsModel],
+    WithArbitraryTypes,
+):
     molecule: t.Annotated[
         orm.StructureData,
         pdt.Field(
