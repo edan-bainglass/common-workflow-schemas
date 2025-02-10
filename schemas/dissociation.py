@@ -3,7 +3,7 @@ from __future__ import annotations
 import typing as t
 
 import pydantic as pdt
-from aiida import orm
+from optimade.models import StructureResource
 
 from .composite import CompositeInputsModel, CompositeOutputsModel
 from .relax import CommonRelaxInputsModel
@@ -29,7 +29,7 @@ class DcInputModel(
     WithArbitraryTypes,
 ):
     molecule: t.Annotated[
-        orm.StructureData,
+        StructureResource,
         MetadataField(
             description="The input molecule",
             iri="https://example.com/schemas/molecule",

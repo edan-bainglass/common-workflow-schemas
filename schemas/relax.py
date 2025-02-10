@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import typing as t
 
+from optimade.models import StructureResource
 import pydantic as pdt
 from aiida import orm
 from numpy.typing import NDArray
@@ -170,7 +171,7 @@ class CommonRelaxInputsModel(
 
 class RelaxInputsModel(CommonRelaxInputsModel):
     structure: t.Annotated[
-        orm.StructureData,
+        StructureResource,
         MetadataField(
             description="The structure to relax.",
             iri="https://example.com/schemas/relax/structure",
@@ -191,7 +192,7 @@ class RelaxOutputsModel(
         ),
     ]
     structure: t.Annotated[
-        orm.StructureData | None,
+        StructureResource | None,
         MetadataField(
             description="The relaxed structure, if relaxation was performed.",
             iri="https://example.com/schemas/relax/structure",
