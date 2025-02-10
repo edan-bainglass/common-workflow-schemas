@@ -7,7 +7,7 @@ from aiida import orm
 
 from .composite import CompositeInputsModel, CompositeOutputsModel
 from .relax import CommonRelaxInputsModel
-from .utils import WithArbitraryTypes
+from .utils import MetadataField, WithArbitraryTypes
 
 
 class EosCommonRelaxInputsModel(CommonRelaxInputsModel):
@@ -18,7 +18,7 @@ class EosCommonRelaxInputsModel(CommonRelaxInputsModel):
             "shape",
             "positions_shape",
         ],
-        pdt.Field(
+        MetadataField(
             description=(
                 "The type of relaxation to perform, limited to fixed-volume "
                 "relaxations."
@@ -33,48 +33,42 @@ class EosInputsModel(
 ):
     structure: t.Annotated[
         orm.StructureData,
-        pdt.Field(description="The input structure"),
+        MetadataField(description="The input structure"),
     ]
     scale_factors: t.Annotated[
         list[pdt.PositiveFloat] | None,
-        pdt.Field(
+        MetadataField(
             description=(
                 "The scale factors at which the volume and total energy of the "
                 "structure should be computed. This input is optional since the scale "
                 "factors can be also set via the `scale_count` and `scale_increment` "
                 "inputs."
             ),
-            json_schema_extra={
-                "iri": "https://example.com/schemas/eos/scale_factors",
-            },
+            iri="https://example.com/schemas/eos/scale_factors",
         ),
     ]
     scale_count: t.Annotated[
         pdt.PositiveInt | None,
-        pdt.Field(
+        MetadataField(
             description=(
                 "The number of scale factors at which the volume and total energy of "
                 "the structure should be computed, used in conjunction with "
                 "`scale_increment`. This input is optional since the scale factors can "
                 "be also set via the `scale_factors` input."
             ),
-            json_schema_extra={
-                "iri": "https://example.com/schemas/eos/scale_count",
-            },
+            iri="https://example.com/schemas/eos/scale_count",
         ),
     ]
     scale_increment: t.Annotated[
         pdt.PositiveFloat | None,
-        pdt.Field(
+        MetadataField(
             description=(
                 "The increment between the scale factors at which the volume and "
                 "total energy of the structure should be computed, used in conjunction "
                 "with `scale_count`. This input is optional since the scale factors "
                 "can be also set via the `scale_factors` input."
             ),
-            json_schema_extra={
-                "iri": "https://example.com/schemas/eos/scale_increment",
-            },
+            iri="https://example.com/schemas/eos/scale_increment",
         ),
     ]
 
@@ -106,7 +100,7 @@ class EosOutputsModel(
 ):
     structures: t.Annotated[
         list[orm.StructureData],
-        pdt.Field(
+        MetadataField(
             description="The list of relaxed structures.",
         ),
     ]

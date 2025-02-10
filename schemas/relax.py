@@ -7,7 +7,7 @@ from aiida import orm
 from numpy.typing import NDArray
 
 from .engine import EngineModel
-from .utils import WithArbitraryTypes
+from .utils import MetadataField, WithArbitraryTypes
 
 
 class CommonRelaxInputsModel(
@@ -16,14 +16,12 @@ class CommonRelaxInputsModel(
 ):
     engines: t.Annotated[
         dict[str, EngineModel],
-        pdt.Field(
+        MetadataField(
             description=(
                 "A dictionary specifying the codes and the corresponding computational "
                 "resources for each step of the workflow."
             ),
-            json_schema_extra={
-                "iri": "https://example.com/schemas/common_relax/engines",
-            },
+            iri="https://example.com/schemas/common_relax/engines",
         ),
     ]
     protocol: t.Annotated[
@@ -32,7 +30,7 @@ class CommonRelaxInputsModel(
             "moderate",
             "precise",
         ],
-        pdt.Field(
+        MetadataField(
             description=(
                 "A single string summarizing the computational accuracy of the "
                 "underlying DFT calculation and relaxation algorithm. Three protocol "
@@ -42,9 +40,7 @@ class CommonRelaxInputsModel(
                 "more specifically, they depend on the implementation choices of the "
                 "corresponding AiiDA plugin."
             ),
-            json_schema_extra={
-                "iri": "https://example.com/schemas/common_relax/protocol",
-            },
+            iri="https://example.com/schemas/common_relax/protocol",
         ),
     ]
     relax_type: t.Annotated[
@@ -58,7 +54,7 @@ class CommonRelaxInputsModel(
             "positions_volume",
             "positions_shape",
         ],
-        pdt.Field(
+        MetadataField(
             description=(
                 "The type of relaxation to perform, ranging from the relaxation of "
                 "only atomic coordinates to the full cell relaxation for extended "
@@ -78,35 +74,31 @@ class CommonRelaxInputsModel(
                 "optimizing the structure. Not all options are available for each "
                 'code. The "none" and "positions" options are shared by all codes.'
             ),
-            json_schema_extra={
-                "iri": "https://example.com/schemas/common_relax/relax_type",
-            },
+            iri="https://example.com/schemas/common_relax/relax_type",
         ),
     ]
     threshold_forces: t.Annotated[
         pdt.PositiveFloat,
-        pdt.Field(
+        MetadataField(
             description=(
                 "A real positive number indicating the target threshold for the forces "
                 "in eV/Å. If not specified, the protocol specification will select an "
                 "appropriate value."
             ),
-            json_schema_extra={
-                "iri": "https://example.com/schemas/common_relax/threshold_forces",
-            },
+            iri="https://example.com/schemas/common_relax/threshold_forces",
+            units="eV/Å",
         ),
     ]
     threshold_stress: t.Annotated[
         pdt.PositiveFloat,
-        pdt.Field(
+        MetadataField(
             description=(
                 "A real positive number indicating the target threshold for the stress "
                 "in eV/Å^3. If not specified, the protocol specification will select "
                 "an appropriate value."
             ),
-            json_schema_extra={
-                "iri": "https://example.com/schemas/common_relax/threshold_stress",
-            },
+            iri="https://example.com/schemas/common_relax/threshold_stress",
+            units="eV/Å^3",
         ),
     ]
     electronic_type: t.Annotated[
@@ -115,7 +107,7 @@ class CommonRelaxInputsModel(
             "insulator",
         ]
         | None,
-        pdt.Field(
+        MetadataField(
             description=(
                 "An optional string to signal whether to perform the simulation for a "
                 "metallic or an insulating system. It accepts only the 'insulator' and "
@@ -123,18 +115,16 @@ class CommonRelaxInputsModel(
                 "extended systems. In case such option is not specified, the "
                 "calculation is assumed to be metallic which is the safest assumption."
             ),
-            json_schema_extra={
-                "iri": "https://example.com/schemas/common_relax/electronic_type",
-            },
+            iri="https://example.com/schemas/common_relax/electronic_type",
         ),
-    ]
+    ] = None
     spin_type: t.Annotated[
         t.Literal[
             "none",
             "collinear",
         ]
         | None,
-        pdt.Field(
+        MetadataField(
             description=(
                 "An optional string to specify the spin degree of freedom for the "
                 "calculation. It accepts the values 'none' or 'collinear'. These will "
@@ -142,14 +132,13 @@ class CommonRelaxInputsModel(
                 "magnetism and spin-orbit coupling. The default is to run the "
                 "calculation without spin polarization."
             ),
-            json_schema_extra={
-                "iri": "https://example.com/schemas/common_relax/spin_type",
-            },
+            iri="https://example.com/schemas/common_relax/spin_type",
         ),
-    ]
+    ] = None
+    # TODO consider automating collection-type detection (list of μB, not μB)
     magnetization_per_site: t.Annotated[
         list[float] | None,
-        pdt.Field(
+        MetadataField(
             description=(
                 "An input devoted to the initial magnetization specifications. It "
                 "accepts a list where each entry refers to an atomic site in the "
@@ -161,34 +150,29 @@ class CommonRelaxInputsModel(
                 "None value signals that the implementation should automatically "
                 "decide an appropriate default initial magnetization."
             ),
-            json_schema_extra={
-                "iri": "https://example.com/schemas/common_relax/magnetization_per_site",
-            },
+            iri="https://example.com/schemas/common_relax/magnetization_per_site",
+            units="μB",
         ),
-    ]
-    reference_workchain: t.Annotated[
-        orm.WorkChainNode | None,
-        pdt.Field(
-            description=(
-                "When this input is present, the interface returns a set of inputs "
-                "which ensure that results of the new `WorkChain` (to be run) can be "
-                "directly compared to the reference_workchain."
-            ),
-            json_schema_extra={
-                "iri": "https://example.com/schemas/common_relax/reference_workchain",
-            },
-        ),
-    ]
+    ] = None
+    # reference_workchain: t.Annotated[
+    #     orm.WorkChainNode | None,
+    #     MetadataField(
+    #         description=(
+    #             "When this input is present, the interface returns a set of inputs "
+    #             "which ensure that results of the new `WorkChain` (to be run) can be "
+    #             "directly compared to the reference_workchain."
+    #         ),
+    #         iri="https://example.com/schemas/common_relax/reference_workchain",
+    #     ),
+    # ] = None
 
 
 class RelaxInputsModel(CommonRelaxInputsModel):
     structure: t.Annotated[
         orm.StructureData,
-        pdt.Field(
+        MetadataField(
             description="The structure to relax.",
-            json_schema_extra={
-                "iri": "https://example.com/schemas/relax/structure",
-            },
+            iri="https://example.com/schemas/relax/structure",
         ),
     ]
 
@@ -199,51 +183,46 @@ class RelaxOutputsModel(
 ):
     forces: t.Annotated[
         NDArray,
-        pdt.Field(
+        MetadataField(
             description="The forces on the atoms.",
-            json_schema_extra={
-                "iri": "https://example.com/schemas/relax/forces",
-            },
+            iri="https://example.com/schemas/relax/forces",
+            units="eV/Å",
         ),
     ]
     structure: t.Annotated[
         orm.StructureData | None,
-        pdt.Field(
+        MetadataField(
             description="The relaxed structure, if relaxation was performed.",
-            json_schema_extra={
-                "iri": "https://example.com/schemas/relax/structure",
-            },
+            iri="https://example.com/schemas/relax/structure",
+            units="Å",
         ),
     ]
     total_energy: t.Annotated[
         float,
-        pdt.Field(
+        MetadataField(
             description=(
                 "The total energy in eV associated to the relaxed structure (or "
                 "initial structure in case no relaxation is performed)."
             ),
-            json_schema_extra={
-                "iri": "https://example.com/schemas/relax/total_energy",
-            },
+            iri="https://example.com/schemas/relax/total_energy",
+            units="eV",
         ),
     ]
     stress: t.Annotated[
         NDArray | None,
-        pdt.Field(
+        MetadataField(
             description=(
                 "The final stress tensor in eV/Å^3, if relaxation was performed."
             ),
-            json_schema_extra={
-                "iri": "https://example.com/schemas/relax/stress",
-            },
+            iri="https://example.com/schemas/relax/stress",
+            units="eV/Å^3",
         ),
     ]
     total_magnetization: t.Annotated[
         float | None,
-        pdt.Field(
-            description="The total magnetization of the system.",
-            json_schema_extra={
-                "iri": "https://example.com/schemas/relax/total_magnetization",
-            },
+        MetadataField(
+            description="The total magnetization of the system in μB.",
+            iri="https://example.com/schemas/relax/total_magnetization",
+            units="μB",
         ),
     ]

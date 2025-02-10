@@ -4,25 +4,23 @@ import typing as t
 
 import pydantic as pdt
 
+from .utils import MetadataField
+
 
 class EngineModel(pdt.BaseModel):
     code: t.Annotated[
         str,
-        pdt.Field(
+        MetadataField(
             description=(
                 "An identifier (PK, UUID or full label) of a configured `Code`."
             ),
-            json_schema_extra={
-                "iri": "https://example.com/schemas/engine/code",
-            },
+            iri="https://example.com/schemas/engine/code",
         ),
     ]
     options: t.Annotated[
         dict[str, t.Any],
-        pdt.Field(
+        MetadataField(
             description="A dictionary of metadata options for the engine.",
-            json_schema_extra={
-                "iri": "https://example.com/schemas/engine/options",
-            },
+            iri="https://example.com/schemas/engine/options",
         ),
     ]

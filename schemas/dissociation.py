@@ -7,13 +7,13 @@ from aiida import orm
 
 from .composite import CompositeInputsModel, CompositeOutputsModel
 from .relax import CommonRelaxInputsModel
-from .utils import WithArbitraryTypes
+from .utils import MetadataField, WithArbitraryTypes
 
 
 class DcCommonRelaxInputsModel(CommonRelaxInputsModel):
     relax_type: t.Annotated[
         str,
-        pdt.Field(
+        MetadataField(
             "none",
             frozen=True,
             description=(
@@ -29,13 +29,13 @@ class DcInputModel(
 ):
     molecule: t.Annotated[
         orm.StructureData,
-        pdt.Field(
+        MetadataField(
             description="The input molecule",
         ),
     ]
     distances: t.Annotated[
         list[pdt.PositiveFloat] | None,
-        pdt.Field(
+        MetadataField(
             description=(
                 "The distances, in Ångstrom, at which the dissociation curve should be "
                 "computed. This input is optional since the distances can be also set "
@@ -45,7 +45,7 @@ class DcInputModel(
     ] = None
     distance_count: t.Annotated[
         pdt.PositiveInt,
-        pdt.Field(
+        MetadataField(
             default=20,
             description=(
                 "The number of distances at which the dissociation curve should be "
@@ -57,7 +57,7 @@ class DcInputModel(
     ] = 20
     distance_min: t.Annotated[
         pdt.PositiveFloat,
-        pdt.Field(
+        MetadataField(
             default=0.5,
             description=(
                 "The minimum distance, in Ångstrom, at which the dissociation curve  "
@@ -69,7 +69,7 @@ class DcInputModel(
     ] = 0.5
     distance_max: t.Annotated[
         pdt.PositiveFloat,
-        pdt.Field(
+        MetadataField(
             default=3,
             description=(
                 "The maximum distance, in Ångstrom, at which the dissociation curve "
@@ -92,7 +92,7 @@ class DcInputModel(
 class DcOutputModel(CompositeOutputsModel):
     distances: t.Annotated[
         list[pdt.PositiveFloat],
-        pdt.Field(
+        MetadataField(
             description=(
                 "The distances, in Ångstrom, at which the dissociation curve was "
                 "computed."
