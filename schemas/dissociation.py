@@ -12,13 +12,14 @@ from .utils import MetadataField, WithArbitraryTypes
 
 class DcCommonRelaxInputsModel(CommonRelaxInputsModel):
     relax_type: t.Annotated[
-        str,
+        t.Literal["none"],
         MetadataField(
-            "none",
-            frozen=True,
+            default="none",
             description=(
                 "This field is fixed to 'none' denoting a single-point calculation."
             ),
+            iri="https://example.com/schemas/dc/relax_type",
+            frozen=True,
         ),
     ] = "none"
 
@@ -31,6 +32,7 @@ class DcInputModel(
         orm.StructureData,
         MetadataField(
             description="The input molecule",
+            iri="https://example.com/schemas/molecule",
         ),
     ]
     distances: t.Annotated[
@@ -41,6 +43,8 @@ class DcInputModel(
                 "computed. This input is optional since the distances can be also set "
                 "via the `distance_count` input."
             ),
+            iri="https://example.com/schemas/dc/distances",
+            units="Å",
         ),
     ] = None
     distance_count: t.Annotated[
@@ -53,6 +57,7 @@ class DcInputModel(
                 "This input is optional since the distances can be also set via the "
                 "`distances` input."
             ),
+            iri="https://example.com/schemas/dc/distance_count",
         ),
     ] = 20
     distance_min: t.Annotated[
@@ -65,6 +70,8 @@ class DcInputModel(
                 "`distance_count`. This input is optional since the distances can be  "
                 "also set via the `distances` input."
             ),
+            iri="https://example.com/schemas/dc/distance_min",
+            units="Å",
         ),
     ] = 0.5
     distance_max: t.Annotated[
@@ -77,6 +84,8 @@ class DcInputModel(
                 "`distance_count`. This input is optional since the distances can be "
                 "also set via the `distances` input."
             ),
+            iri="https://example.com/schemas/dc/distance_max",
+            units="Å",
         ),
     ] = 3
 
@@ -97,5 +106,7 @@ class DcOutputModel(CompositeOutputsModel):
                 "The distances, in Ångstrom, at which the dissociation curve was "
                 "computed."
             ),
+            iri="https://example.com/schemas/dc/distances",
+            units="Å",
         ),
     ]

@@ -154,17 +154,18 @@ class CommonRelaxInputsModel(
             units="μB",
         ),
     ] = None
-    # reference_workchain: t.Annotated[
-    #     orm.WorkChainNode | None,
-    #     MetadataField(
-    #         description=(
-    #             "When this input is present, the interface returns a set of inputs "
-    #             "which ensure that results of the new `WorkChain` (to be run) can be "
-    #             "directly compared to the reference_workchain."
-    #         ),
-    #         iri="https://example.com/schemas/common_relax/reference_workchain",
-    #     ),
-    # ] = None
+    # TODO how to serialize?
+    reference_workchain: t.Annotated[
+        orm.WorkChainNode | None,
+        MetadataField(
+            description=(
+                "When this input is present, the interface returns a set of inputs "
+                "which ensure that results of the new `WorkChain` (to be run) can be "
+                "directly compared to the reference_workchain."
+            ),
+            iri="https://example.com/schemas/common_relax/reference_workchain",
+        ),
+    ] = None
 
 
 class RelaxInputsModel(CommonRelaxInputsModel):

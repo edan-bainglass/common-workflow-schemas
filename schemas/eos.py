@@ -23,6 +23,8 @@ class EosCommonRelaxInputsModel(CommonRelaxInputsModel):
                 "The type of relaxation to perform, limited to fixed-volume "
                 "relaxations."
             ),
+            # TODO iri should extend the base relax_type iri
+            iri="https://example.com/schemas/eos/relax_type",
         ),
     ]
 
@@ -33,7 +35,10 @@ class EosInputsModel(
 ):
     structure: t.Annotated[
         orm.StructureData,
-        MetadataField(description="The input structure"),
+        MetadataField(
+            description="The input structure",
+            iri="https://example.com/schemas/structure",
+        ),
     ]
     scale_factors: t.Annotated[
         list[pdt.PositiveFloat] | None,
@@ -102,5 +107,6 @@ class EosOutputsModel(
         list[orm.StructureData],
         MetadataField(
             description="The list of relaxed structures.",
+            iri="https://example.com/schemas/structures",
         ),
     ]
