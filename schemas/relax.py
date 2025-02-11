@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import typing as t
 
 from optimade.models import StructureResource
@@ -135,7 +133,6 @@ class CommonRelaxInputsModel(
             iri="https://example.com/schemas/simulation/scf/spin_type",
         ),
     ] = None
-    # TODO consider automating collection-type detection (list of μB, not μB)
     magnetization_per_site: t.Annotated[
         list[float] | None,
         MetadataField(
