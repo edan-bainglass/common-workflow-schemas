@@ -155,16 +155,17 @@ class CommonRelaxInputsModel(
             units="μB",
         ),
     ] = None
-    # TODO how to serialize?
-    reference_workchain: t.Annotated[
-        orm.WorkChainNode | None,
+    reference_process: t.Annotated[
+        str | None,
         MetadataField(
             description=(
-                "When this input is present, the interface returns a set of inputs "
-                "which ensure that results of the new `WorkChain` (to be run) can be "
-                "directly compared to the reference_workchain."
+                "A unique string identifier of the process, such as a PK or UUID. When "
+                "present, the interface returns a set of inputs which ensure that "
+                "results of the new process (to be run) can be directly compared to "
+                "the `reference_process`. The field is given as a string representing "
+                "the unique identifier of the process, such as PK or UUID."
             ),
-            iri="https://example.com/schemas/common_relax/reference_workchain",
+            iri="https://example.com/schemas/common_relax/reference_process",
         ),
     ] = None
 
