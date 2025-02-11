@@ -23,8 +23,8 @@ class EosCommonRelaxInputsModel(CommonRelaxInputsModel):
                 "The type of relaxation to perform, limited to fixed-volume "
                 "relaxations."
             ),
-            # TODO iri should extend the base relax_type iri
-            iri="https://example.com/schemas/eos/relax_type",
+            # TODO should iri extend the base relax_type iri?
+            iri="https://example.com/schemas/simulation/eos/relax_type",
         ),
     ]
 
@@ -37,7 +37,7 @@ class EosInputsModel(
         StructureResource,
         MetadataField(
             description="The input structure",
-            iri="https://example.com/schemas/structure",
+            iri="https://example.com/schemas/simulation/structure",
         ),
     ]
     scale_factors: t.Annotated[
@@ -49,7 +49,7 @@ class EosInputsModel(
                 "factors can be also set via the `scale_count` and `scale_increment` "
                 "inputs."
             ),
-            iri="https://example.com/schemas/eos/scale_factors",
+            iri="https://example.com/schemas/simulation/eos/scale_factors",
         ),
     ]
     scale_count: t.Annotated[
@@ -61,7 +61,7 @@ class EosInputsModel(
                 "`scale_increment`. This input is optional since the scale factors can "
                 "be also set via the `scale_factors` input."
             ),
-            iri="https://example.com/schemas/eos/scale_count",
+            iri="https://example.com/schemas/simulation/eos/scale_count",
         ),
     ]
     scale_increment: t.Annotated[
@@ -73,7 +73,7 @@ class EosInputsModel(
                 "with `scale_count`. This input is optional since the scale factors "
                 "can be also set via the `scale_factors` input."
             ),
-            iri="https://example.com/schemas/eos/scale_increment",
+            iri="https://example.com/schemas/simulation/eos/scale_increment",
         ),
     ]
 
@@ -107,6 +107,6 @@ class EosOutputsModel(
         list[StructureResource],
         MetadataField(
             description="The list of relaxed structures.",
-            iri="https://example.com/schemas/structures",
+            iri="https://example.com/schemas/simulation/eos/structures",
         ),
     ]

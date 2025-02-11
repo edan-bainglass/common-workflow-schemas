@@ -21,7 +21,7 @@ class CompositeInputsModel(pdt.BaseModel, t.Generic[T]):
                 "aiida.workflows`. Any entry point that starts with "
                 "`common_workflows.relax.` can be used."
             ),
-            iri="https://example.com/schemas/composite/sub_process_class",
+            iri="https://example.com/schemas/simulation/composite/sub_process_class",
         ),
     ]
     generator_inputs: t.Annotated[
@@ -31,7 +31,7 @@ class CompositeInputsModel(pdt.BaseModel, t.Generic[T]):
                 "The inputs to pass to the generator process. If not specified, the "
                 "default inputs will be used."
             ),
-            iri="https://example.com/schemas/composite/generator_inputs",
+            iri="https://example.com/schemas/simulation/composite/generator_inputs",
         ),
     ]
     sub_process: t.Annotated[
@@ -42,7 +42,7 @@ class CompositeInputsModel(pdt.BaseModel, t.Generic[T]):
                 "`generator_inputs`. The inputs must be valid ports of the "
                 "`sub_process_class`."
             ),
-            iri="https://example.com/schemas/composite/sub_process",
+            iri="https://example.com/schemas/simulation/composite/sub_process",
         ),
     ]
 
@@ -71,7 +71,7 @@ class CompositeOutputsModel(pdt.BaseModel):
         list[float],
         MetadataField(
             description="The computed total energy for each sub-process.",
-            iri="https://example.com/schemas/composite/total_energies",
+            iri="https://example.com/schemas/simulation/composite/total_energies",
             units="eV",
         ),
     ]
@@ -82,7 +82,7 @@ class CompositeOutputsModel(pdt.BaseModel):
                 "The total magnetization, in μB, of the final structure of each sub "
                 "process, if returned by the underlying common relax workflow."
             ),
-            iri="https://example.com/schemas/composite/total_magnetizations",
+            iri="https://example.com/schemas/simulation/composite/total_magnetizations",
             units="μB",
         ),
     ]

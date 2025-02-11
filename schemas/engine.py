@@ -14,13 +14,13 @@ class EngineModel(pdt.BaseModel):
             description=(
                 "An identifier (PK, UUID or full label) of a configured `Code`."
             ),
-            iri="https://example.com/schemas/engine/code",
+            iri="https://example.com/schemas/simulation/engine/code",
         ),
     ]
     options: t.Annotated[
         dict[str, t.Any],
         MetadataField(
             description="A dictionary of metadata options for the engine.",
-            iri="https://example.com/schemas/engine/options",
+            iri="https://example.com/schemas/simulation/engine/options",
         ),
     ]

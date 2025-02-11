@@ -4,7 +4,6 @@ import typing as t
 
 from optimade.models import StructureResource
 import pydantic as pdt
-from aiida import orm
 from numpy.typing import NDArray
 
 from .engine import EngineModel
@@ -22,7 +21,7 @@ class CommonRelaxInputsModel(
                 "A dictionary specifying the codes and the corresponding computational "
                 "resources for each step of the workflow."
             ),
-            iri="https://example.com/schemas/common_relax/engines",
+            iri="https://example.com/schemas/simulation/engines",
         ),
     ]
     protocol: t.Annotated[
@@ -41,7 +40,7 @@ class CommonRelaxInputsModel(
                 "more specifically, they depend on the implementation choices of the "
                 "corresponding AiiDA plugin."
             ),
-            iri="https://example.com/schemas/common_relax/protocol",
+            iri="https://example.com/schemas/simulation/scf/protocol",
         ),
     ]
     relax_type: t.Annotated[
@@ -75,7 +74,7 @@ class CommonRelaxInputsModel(
                 "optimizing the structure. Not all options are available for each "
                 'code. The "none" and "positions" options are shared by all codes.'
             ),
-            iri="https://example.com/schemas/common_relax/relax_type",
+            iri="https://example.com/schemas/simulation/scf/relax/relax_type",
         ),
     ]
     threshold_forces: t.Annotated[
@@ -86,7 +85,7 @@ class CommonRelaxInputsModel(
                 "in eV/Å. If not specified, the protocol specification will select an "
                 "appropriate value."
             ),
-            iri="https://example.com/schemas/common_relax/threshold_forces",
+            iri="https://example.com/schemas/simulation/scf/relax/threshold_forces",
             units="eV/Å",
         ),
     ]
@@ -98,7 +97,7 @@ class CommonRelaxInputsModel(
                 "in eV/Å^3. If not specified, the protocol specification will select "
                 "an appropriate value."
             ),
-            iri="https://example.com/schemas/common_relax/threshold_stress",
+            iri="https://example.com/schemas/simulation/scf/relax/threshold_stress",
             units="eV/Å^3",
         ),
     ]
@@ -116,7 +115,7 @@ class CommonRelaxInputsModel(
                 "extended systems. In case such option is not specified, the "
                 "calculation is assumed to be metallic which is the safest assumption."
             ),
-            iri="https://example.com/schemas/common_relax/electronic_type",
+            iri="https://example.com/schemas/simulation/scf/electronic_type",
         ),
     ] = None
     spin_type: t.Annotated[
@@ -133,7 +132,7 @@ class CommonRelaxInputsModel(
                 "magnetism and spin-orbit coupling. The default is to run the "
                 "calculation without spin polarization."
             ),
-            iri="https://example.com/schemas/common_relax/spin_type",
+            iri="https://example.com/schemas/simulation/scf/spin_type",
         ),
     ] = None
     # TODO consider automating collection-type detection (list of μB, not μB)
@@ -151,7 +150,7 @@ class CommonRelaxInputsModel(
                 "None value signals that the implementation should automatically "
                 "decide an appropriate default initial magnetization."
             ),
-            iri="https://example.com/schemas/common_relax/magnetization_per_site",
+            iri="https://example.com/schemas/simulation/structure/site/magnetization",
             units="μB",
         ),
     ] = None
@@ -165,7 +164,7 @@ class CommonRelaxInputsModel(
                 "the `reference_process`. The field is given as a string representing "
                 "the unique identifier of the process, such as PK or UUID."
             ),
-            iri="https://example.com/schemas/common_relax/reference_process",
+            iri="https://example.com/schemas/simulation/process/orchestrator",
         ),
     ] = None
 
@@ -175,7 +174,7 @@ class RelaxInputsModel(CommonRelaxInputsModel):
         StructureResource,
         MetadataField(
             description="The structure to relax.",
-            iri="https://example.com/schemas/relax/structure",
+            iri="https://example.com/schemas/simulation/structure",
         ),
     ]
 
@@ -188,7 +187,7 @@ class RelaxOutputsModel(
         NDArray,
         MetadataField(
             description="The forces on the atoms.",
-            iri="https://example.com/schemas/relax/forces",
+            iri="https://example.com/schemas/simulation/relax/forces",
             units="eV/Å",
         ),
     ]
@@ -196,7 +195,7 @@ class RelaxOutputsModel(
         StructureResource | None,
         MetadataField(
             description="The relaxed structure, if relaxation was performed.",
-            iri="https://example.com/schemas/relax/structure",
+            iri="https://example.com/schemas/simulation/relax/structure",
             units="Å",
         ),
     ]
@@ -207,7 +206,7 @@ class RelaxOutputsModel(
                 "The total energy in eV associated to the relaxed structure (or "
                 "initial structure in case no relaxation is performed)."
             ),
-            iri="https://example.com/schemas/relax/total_energy",
+            iri="https://example.com/schemas/simulation/scf/total_energy",
             units="eV",
         ),
     ]
@@ -217,7 +216,7 @@ class RelaxOutputsModel(
             description=(
                 "The final stress tensor in eV/Å^3, if relaxation was performed."
             ),
-            iri="https://example.com/schemas/relax/stress",
+            iri="https://example.com/schemas/simulation/relax/stress",
             units="eV/Å^3",
         ),
     ]
@@ -225,7 +224,7 @@ class RelaxOutputsModel(
         float | None,
         MetadataField(
             description="The total magnetization of the system in μB.",
-            iri="https://example.com/schemas/relax/total_magnetization",
+            iri="https://example.com/schemas/simulation/total_magnetization",
             units="μB",
         ),
     ]
