@@ -224,3 +224,19 @@ class RelaxOutputsModel(
             units="μB",
         ),
     ]
+    hartree_potential: t.Annotated[
+        FloatArray | None,
+        MetadataField(
+            description="The Hartree potential.",
+            iri="https://example.com/schemas/simulation/scf/hartree_potential",
+            units="Rydberg",
+        ),
+    ]
+    charge_density: t.Annotated[
+        FloatArray | None,
+        MetadataField(
+            description="The total magnetization of the system in μB.",
+            iri="https://example.com/schemas/simulation/scf/charge_density",
+            units="Rydberg",
+        ),
+    ]
