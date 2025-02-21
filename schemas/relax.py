@@ -2,10 +2,9 @@ import typing as t
 
 from optimade.models import StructureResource
 import pydantic as pdt
-from numpy.typing import NDArray
 
 from .engine import EngineModel
-from .utils import MetadataField, WithArbitraryTypes
+from .utils import FloatArray, MetadataField, WithArbitraryTypes
 
 
 class CommonRelaxInputsModel(
@@ -181,7 +180,7 @@ class RelaxOutputsModel(
     WithArbitraryTypes,
 ):
     forces: t.Annotated[
-        NDArray,
+        FloatArray,
         MetadataField(
             description="The forces on the atoms.",
             iri="https://example.com/schemas/simulation/relax/forces",
@@ -208,7 +207,7 @@ class RelaxOutputsModel(
         ),
     ]
     stress: t.Annotated[
-        NDArray | None,
+        FloatArray | None,
         MetadataField(
             description=(
                 "The final stress tensor in eV/Å^3, if relaxation was performed."
