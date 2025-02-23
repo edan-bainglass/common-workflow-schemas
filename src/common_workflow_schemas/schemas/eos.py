@@ -3,8 +3,8 @@ import typing as t
 import pydantic as pdt
 from optimade.models import StructureResource
 
+from common_workflow_schemas.common.field import MetadataField
 from common_workflow_schemas.common.mixins import WithArbitraryTypes
-from common_workflow_schemas.utils.metadata import MetadataField
 
 from .composite import CompositeInputsModel, CompositeOutputsModel
 from .relax import CommonRelaxInputsModel

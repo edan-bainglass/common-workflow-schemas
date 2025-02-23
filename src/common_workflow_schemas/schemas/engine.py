@@ -2,7 +2,7 @@ import typing as t
 
 import pydantic as pdt
 
-from common_workflow_schemas.utils.metadata import MetadataField
+from common_workflow_schemas.common.field import MetadataField
 
 
 class EngineModel(pdt.BaseModel):

@@ -3,7 +3,7 @@ import uuid
 
 import pydantic as pdt
 
-from common_workflow_schemas.utils.metadata import MetadataField
+from common_workflow_schemas.common.field import MetadataField
 
 UUIDHex = t.Annotated[
     str,
