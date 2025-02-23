@@ -1,10 +1,13 @@
 import typing as t
 
-from optimade.models import StructureResource
 import pydantic as pdt
+from optimade.models import StructureResource
+
+from common_workflow_schemas.common.mixins import WithArbitraryTypes
+from common_workflow_schemas.common.types import PK, FloatArray
+from common_workflow_schemas.utils.metadata import MetadataField
 
 from .engine import EngineModel
-from .utils import FloatArray, MetadataField, WithArbitraryTypes
 
 
 class CommonRelaxInputsModel(
@@ -151,7 +154,7 @@ class CommonRelaxInputsModel(
         ),
     ] = None
     reference_process: t.Annotated[
-        str | None,
+        PK | pdt.UUID4 | None,
         MetadataField(
             description=(
                 "A unique string identifier of the process, such as a PK or UUID. When "

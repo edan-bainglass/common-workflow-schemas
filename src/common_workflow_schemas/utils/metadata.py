@@ -1,14 +1,6 @@
 import typing as t
 
 import pydantic as pdt
-import numpy as np
-import numpy.typing as npt
-
-FloatArray = npt.NDArray[np.float64]
-
-
-class WithArbitraryTypes:
-    model_config = pdt.ConfigDict(arbitrary_types_allowed=True)
 
 
 def MetadataField(

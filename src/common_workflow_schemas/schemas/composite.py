@@ -3,7 +3,7 @@ import typing as t
 import pydantic as pdt
 from aiida.plugins import WorkflowFactory
 
-from .utils import MetadataField
+from common_workflow_schemas.utils.metadata import MetadataField
 
 T = t.TypeVar("T", bound=pdt.BaseModel)
 

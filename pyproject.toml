@@ -1,0 +1,34 @@
+[build-system]
+build-backend = "flit_core.buildapi"
+requires = ["flit_core >=3.4,<4"]
+
+[project]
+authors = [{ name = "PREMISE team", email = "edan-baingass@psi.ch" }]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Science/Engineering/Interoperability",
+]
+dependencies = ["numpy~=1.26", "pydantic~=2.10", "optimade~=1.1"]
+description = "Input/output schemas for workflows in computational materials science common across workflow engines and simulation codes."
+dynamic = ["version"]
+keywords = ["workflows", "common", "schemas"]
+license = { file = "LICENSE" }
+name = "common-workflow-schemas"
+readme = "README.md"
+requires-python = ">=3.10"
+
+[project.urls]
+Source = "https://github.com/edan-bainglass/common-workflow-schemas"
+
+[tool.flit.module]
+name = "common_workflow_schemas"
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.format]
+quote-style = "double"
