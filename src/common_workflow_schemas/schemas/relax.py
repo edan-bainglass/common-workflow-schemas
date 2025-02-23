@@ -4,7 +4,7 @@ import pydantic as pdt
 from optimade.models import StructureResource
 
 from common_workflow_schemas.common.mixins import WithArbitraryTypes
-from common_workflow_schemas.common.types import PK, FloatArray
+from common_workflow_schemas.common.types import FloatArray, UniqueIdentifier
 from common_workflow_schemas.utils.metadata import MetadataField
 
 from .engine import EngineModel
@@ -154,16 +154,14 @@ class CommonRelaxInputsModel(
         ),
     ] = None
     reference_process: t.Annotated[
-        PK | pdt.UUID4 | None,
+        UniqueIdentifier | None,
         MetadataField(
             description=(
-                "A unique string identifier of the process, such as a PK or UUID. When "
-                "present, the interface returns a set of inputs which ensure that "
-                "results of the new process (to be run) can be directly compared to "
-                "the `reference_process`. The field is given as a string representing "
-                "the unique identifier of the process, such as PK or UUID."
+                "The UUID of the process. When present, the interface returns a set ",
+                "of inputs which ensure that results of the new process (to be run) ",
+                "can be directly compared to the `reference_process`.",
             ),
-            iri="https://example.com/schemas/simulation/process/orchestrator",
+            iri="https://example.com/schemas/simulation/reference_process",
         ),
     ] = None
 
