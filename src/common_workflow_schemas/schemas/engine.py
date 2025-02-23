@@ -4,16 +4,14 @@ import pydantic as pdt
 
 from common_workflow_schemas.common.field import MetadataField
 
+from .code import Code
 
-class EngineModel(pdt.BaseModel):
+
+class Engine(pdt.BaseModel):
     code: t.Annotated[
-        str,
+        Code,
         MetadataField(
-            description=(
-                "An identifier of the code to be used for the engine. This can be a ",
-                "unique identifier (PK, UUID, etc.), a label, or an executable path. ",
-                "The workflow manager is responsible for resolving this identifier.",
-            ),
+            description="A code that can execute the engine workflow.",
             iri="https://example.com/schemas/simulation/engine/code",
         ),
     ]

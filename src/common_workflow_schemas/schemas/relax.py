@@ -7,7 +7,7 @@ from common_workflow_schemas.common.field import MetadataField
 from common_workflow_schemas.common.mixins import WithArbitraryTypes
 from common_workflow_schemas.common.types import FloatArray, UniqueIdentifier
 
-from .engine import EngineModel
+from .engine import Engine
 
 
 class CommonRelaxInputsModel(
@@ -15,7 +15,7 @@ class CommonRelaxInputsModel(
     WithArbitraryTypes,
 ):
     engines: t.Annotated[
-        dict[str, EngineModel],
+        dict[str, Engine],
         MetadataField(
             description=(
                 "A dictionary specifying the codes and the corresponding computational "
