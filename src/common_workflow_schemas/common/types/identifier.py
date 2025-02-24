@@ -8,6 +8,7 @@ from common_workflow_schemas.common.field import MetadataField
 UUIDHex = t.Annotated[
     str,
     pdt.AfterValidator(lambda s: uuid.UUID(s, version=4)),
+    pdt.PlainSerializer(lambda uuid_: str(uuid_)),
 ]
 
 
