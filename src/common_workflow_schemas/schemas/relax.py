@@ -78,7 +78,7 @@ class CommonRelaxInputsModel(
         ),
     ]
     threshold_forces: t.Annotated[
-        pdt.PositiveFloat,
+        t.Optional[pdt.PositiveFloat],
         MetadataField(
             description=(
                 "A real positive number indicating the target threshold for the forces "
@@ -88,9 +88,9 @@ class CommonRelaxInputsModel(
             iri="https://example.com/schemas/simulation/scf/relax/thresholdForces",
             units="eV/Å",
         ),
-    ]
+    ] = None
     threshold_stress: t.Annotated[
-        pdt.PositiveFloat,
+        t.Optional[pdt.PositiveFloat],
         MetadataField(
             description=(
                 "A real positive number indicating the target threshold for the stress "
@@ -100,7 +100,7 @@ class CommonRelaxInputsModel(
             iri="https://example.com/schemas/simulation/scf/relax/thresholdStress",
             units="eV/Å^3",
         ),
-    ]
+    ] = None
     electronic_type: t.Annotated[
         t.Optional[
             t.Literal[
