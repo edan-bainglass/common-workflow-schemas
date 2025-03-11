@@ -24,7 +24,7 @@ class EosCommonRelaxInputsModel(CommonRelaxInputsModel):
                 "relaxations."
             ),
             # TODO should iri extend the base relax_type iri?
-            iri="https://example.com/schemas/simulation/eos/relax_type",
+            iri="https://example.com/schemas/simulation/eos/relaxType",
         ),
     ]
 
@@ -49,7 +49,7 @@ class EosInputsModel(
                 "factors can be also set via the `scale_count` and `scale_increment` "
                 "inputs."
             ),
-            iri="https://example.com/schemas/simulation/eos/scale_factors",
+            iri="https://example.com/schemas/simulation/eos/scaleFactors",
         ),
     ]
     scale_count: t.Annotated[
@@ -61,7 +61,7 @@ class EosInputsModel(
                 "`scale_increment`. This input is optional since the scale factors can "
                 "be also set via the `scale_factors` input."
             ),
-            iri="https://example.com/schemas/simulation/eos/scale_count",
+            iri="https://example.com/schemas/simulation/eos/scaleCount",
         ),
     ]
     scale_increment: t.Annotated[
@@ -73,7 +73,7 @@ class EosInputsModel(
                 "with `scale_count`. This input is optional since the scale factors "
                 "can be also set via the `scale_factors` input."
             ),
-            iri="https://example.com/schemas/simulation/eos/scale_increment",
+            iri="https://example.com/schemas/simulation/eos/scaleIncrement",
         ),
     ]
 

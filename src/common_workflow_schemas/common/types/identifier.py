@@ -11,13 +11,11 @@ UUIDHex = t.Annotated[
     pdt.PlainSerializer(lambda uuid_: str(uuid_)),
 ]
 
-
-class UniqueIdentifier(pdt.BaseModel):
-    identifier: t.Annotated[
-        UUIDHex | pdt.UUID4,
-        MetadataField(
-            default=None,
-            description="Unique UUID identifier",
-            iri="https://example.com/schemas/uuid",
-        ),
-    ]
+UniqueIdentifier = t.Annotated[
+    UUIDHex | pdt.UUID4,
+    MetadataField(
+        default=None,
+        description="Unique UUID identifier",
+        iri="https://example.com/schemas/uuid",
+    ),
+]

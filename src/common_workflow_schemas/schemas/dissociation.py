@@ -18,7 +18,7 @@ class DcCommonRelaxInputsModel(CommonRelaxInputsModel):
             description=(
                 "This field is fixed to 'none' denoting a single-point calculation."
             ),
-            iri="https://example.com/schemas/simulation/dc/relax_type",
+            iri="https://example.com/schemas/simulation/dc/relaxType",
             frozen=True,
         ),
     ] = "none"
@@ -57,7 +57,7 @@ class DcInputModel(
                 "This input is optional since the distances can be also set via the "
                 "`distances` input."
             ),
-            iri="https://example.com/schemas/simulation/dc/distance_count",
+            iri="https://example.com/schemas/simulation/dc/distanceCount",
         ),
     ] = 20
     distance_min: t.Annotated[
@@ -70,7 +70,7 @@ class DcInputModel(
                 "`distance_count`. This input is optional since the distances can be  "
                 "also set via the `distances` input."
             ),
-            iri="https://example.com/schemas/simulation/dc/distance_min",
+            iri="https://example.com/schemas/simulation/dc/distanceMin",
             units="Å",
         ),
     ] = 0.5
@@ -84,7 +84,7 @@ class DcInputModel(
                 "`distance_count`. This input is optional since the distances can be "
                 "also set via the `distances` input."
             ),
-            iri="https://example.com/schemas/simulation/dc/distance_max",
+            iri="https://example.com/schemas/simulation/dc/distanceMax",
             units="Å",
         ),
     ] = 3

@@ -74,7 +74,7 @@ class CommonRelaxInputsModel(
                 "optimizing the structure. Not all options are available for each "
                 'code. The "none" and "positions" options are shared by all codes.'
             ),
-            iri="https://example.com/schemas/simulation/scf/relax/relax_type",
+            iri="https://example.com/schemas/simulation/scf/relax/relaxType",
         ),
     ]
     threshold_forces: t.Annotated[
@@ -85,7 +85,7 @@ class CommonRelaxInputsModel(
                 "in eV/Å. If not specified, the protocol specification will select an "
                 "appropriate value."
             ),
-            iri="https://example.com/schemas/simulation/scf/relax/threshold_forces",
+            iri="https://example.com/schemas/simulation/scf/relax/thresholdForces",
             units="eV/Å",
         ),
     ]
@@ -97,7 +97,7 @@ class CommonRelaxInputsModel(
                 "in eV/Å^3. If not specified, the protocol specification will select "
                 "an appropriate value."
             ),
-            iri="https://example.com/schemas/simulation/scf/relax/threshold_stress",
+            iri="https://example.com/schemas/simulation/scf/relax/thresholdStress",
             units="eV/Å^3",
         ),
     ]
@@ -115,7 +115,7 @@ class CommonRelaxInputsModel(
                 "extended systems. In case such option is not specified, the "
                 "calculation is assumed to be metallic which is the safest assumption."
             ),
-            iri="https://example.com/schemas/simulation/scf/electronic_type",
+            iri="https://example.com/schemas/simulation/scf/electronicType",
         ),
     ] = None
     spin_type: t.Annotated[
@@ -132,7 +132,7 @@ class CommonRelaxInputsModel(
                 "magnetism and spin-orbit coupling. The default is to run the "
                 "calculation without spin polarization."
             ),
-            iri="https://example.com/schemas/simulation/scf/spin_type",
+            iri="https://example.com/schemas/simulation/scf/spinType",
         ),
     ] = None
     magnetization_per_site: t.Annotated[
@@ -161,7 +161,7 @@ class CommonRelaxInputsModel(
                 "of inputs which ensure that results of the new process (to be run) ",
                 "can be directly compared to the `reference_process`.",
             ),
-            iri="https://example.com/schemas/simulation/reference_process",
+            iri="https://example.com/schemas/simulation/referenceProcess",
         ),
     ] = None
 
@@ -221,7 +221,7 @@ class RelaxOutputsModel(
         float | None,
         MetadataField(
             description="The total magnetization of the system in μB.",
-            iri="https://example.com/schemas/simulation/total_magnetization",
+            iri="https://example.com/schemas/simulation/totalMagnetization",
             units="μB",
         ),
     ]
@@ -229,7 +229,7 @@ class RelaxOutputsModel(
         FloatArray | None,
         MetadataField(
             description="The Hartree potential.",
-            iri="https://example.com/schemas/simulation/scf/hartree_potential",
+            iri="https://example.com/schemas/simulation/scf/hartreePotential",
             units="Rydberg",
         ),
     ]
@@ -237,7 +237,7 @@ class RelaxOutputsModel(
         FloatArray | None,
         MetadataField(
             description="The total magnetization of the system in μB.",
-            iri="https://example.com/schemas/simulation/scf/charge_density",
+            iri="https://example.com/schemas/simulation/scf/chargeDensity",
             units="Rydberg",
         ),
     ]
