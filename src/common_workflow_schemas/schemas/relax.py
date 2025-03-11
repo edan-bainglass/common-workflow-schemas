@@ -190,14 +190,14 @@ class RelaxOutputsModel(
             units="eV/Å",
         ),
     ]
-    structure: t.Annotated[
+    relaxed_structure: t.Annotated[
         t.Optional[StructureResource],
         MetadataField(
             description="The relaxed structure, if relaxation was performed.",
             iri="https://example.com/schemas/simulation/relax/structure",
             units="Å",
         ),
-    ]
+    ] = None
     total_energy: t.Annotated[
         float,
         MetadataField(
@@ -226,7 +226,7 @@ class RelaxOutputsModel(
             iri="https://example.com/schemas/simulation/totalMagnetization",
             units="μB",
         ),
-    ]
+    ] = None
     hartree_potential: t.Annotated[
         t.Optional[FloatArray],
         MetadataField(
@@ -234,7 +234,7 @@ class RelaxOutputsModel(
             iri="https://example.com/schemas/simulation/scf/hartreePotential",
             units="Rydberg",
         ),
-    ]
+    ] = None
     charge_density: t.Annotated[
         t.Optional[FloatArray],
         MetadataField(
@@ -242,4 +242,4 @@ class RelaxOutputsModel(
             iri="https://example.com/schemas/simulation/scf/chargeDensity",
             units="Rydberg",
         ),
-    ]
+    ] = None
