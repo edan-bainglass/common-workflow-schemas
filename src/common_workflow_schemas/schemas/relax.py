@@ -102,11 +102,12 @@ class CommonRelaxInputsModel(
         ),
     ]
     electronic_type: t.Annotated[
-        t.Literal[
-            "metal",
-            "insulator",
-        ]
-        | None,
+        t.Optional[
+            t.Literal[
+                "metal",
+                "insulator",
+            ]
+        ],
         MetadataField(
             description=(
                 "An optional string to signal whether to perform the simulation for a "
@@ -119,11 +120,12 @@ class CommonRelaxInputsModel(
         ),
     ] = None
     spin_type: t.Annotated[
-        t.Literal[
-            "none",
-            "collinear",
-        ]
-        | None,
+        t.Optional[
+            t.Literal[
+                "none",
+                "collinear",
+            ]
+        ],
         MetadataField(
             description=(
                 "An optional string to specify the spin degree of freedom for the "
@@ -136,7 +138,7 @@ class CommonRelaxInputsModel(
         ),
     ] = None
     magnetization_per_site: t.Annotated[
-        list[float] | None,
+        t.Optional[list[float]],
         MetadataField(
             description=(
                 "An input devoted to the initial magnetization specifications. It "
@@ -154,7 +156,7 @@ class CommonRelaxInputsModel(
         ),
     ] = None
     reference_process: t.Annotated[
-        UniqueIdentifier | None,
+        t.Optional[UniqueIdentifier],
         MetadataField(
             description=(
                 "The UUID of the process. When present, the interface returns a set ",
@@ -189,7 +191,7 @@ class RelaxOutputsModel(
         ),
     ]
     structure: t.Annotated[
-        StructureResource | None,
+        t.Optional[StructureResource],
         MetadataField(
             description="The relaxed structure, if relaxation was performed.",
             iri="https://example.com/schemas/simulation/relax/structure",
@@ -208,7 +210,7 @@ class RelaxOutputsModel(
         ),
     ]
     stress: t.Annotated[
-        FloatArray | None,
+        t.Optional[FloatArray],
         MetadataField(
             description=(
                 "The final stress tensor in eV/Å^3, if relaxation was performed."
@@ -218,7 +220,7 @@ class RelaxOutputsModel(
         ),
     ]
     total_magnetization: t.Annotated[
-        float | None,
+        t.Optional[float],
         MetadataField(
             description="The total magnetization of the system in μB.",
             iri="https://example.com/schemas/simulation/totalMagnetization",
@@ -226,7 +228,7 @@ class RelaxOutputsModel(
         ),
     ]
     hartree_potential: t.Annotated[
-        FloatArray | None,
+        t.Optional[FloatArray],
         MetadataField(
             description="The Hartree potential.",
             iri="https://example.com/schemas/simulation/scf/hartreePotential",
@@ -234,7 +236,7 @@ class RelaxOutputsModel(
         ),
     ]
     charge_density: t.Annotated[
-        FloatArray | None,
+        t.Optional[FloatArray],
         MetadataField(
             description="The total magnetization of the system in μB.",
             iri="https://example.com/schemas/simulation/scf/chargeDensity",

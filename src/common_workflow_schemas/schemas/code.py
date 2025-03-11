@@ -10,7 +10,7 @@ from common_workflow_schemas.common.types import UniqueIdentifier
 
 class Code(pdt.BaseModel):
     identifier: t.Annotated[
-        UniqueIdentifier | None,
+        t.Optional[UniqueIdentifier],
         MetadataField(
             description="The unique identifier of the code.",
             iri="https://example.com/schemas/uniqueIdentifier",

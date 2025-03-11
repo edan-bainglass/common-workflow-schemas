@@ -12,7 +12,7 @@ UUIDHex = t.Annotated[
 ]
 
 UniqueIdentifier = t.Annotated[
-    UUIDHex | pdt.UUID4,
+    t.Union[UUIDHex, pdt.UUID4],
     MetadataField(
         default=None,
         description="Unique UUID identifier",

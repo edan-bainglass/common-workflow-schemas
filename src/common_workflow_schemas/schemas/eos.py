@@ -41,7 +41,7 @@ class EosInputsModel(
         ),
     ]
     scale_factors: t.Annotated[
-        list[pdt.PositiveFloat] | None,
+        t.Optional[list[pdt.PositiveFloat]],
         MetadataField(
             description=(
                 "The scale factors at which the volume and total energy of the "
@@ -53,7 +53,7 @@ class EosInputsModel(
         ),
     ]
     scale_count: t.Annotated[
-        pdt.PositiveInt | None,
+        t.Optional[pdt.PositiveInt],
         MetadataField(
             description=(
                 "The number of scale factors at which the volume and total energy of "
@@ -65,7 +65,7 @@ class EosInputsModel(
         ),
     ]
     scale_increment: t.Annotated[
-        pdt.PositiveFloat | None,
+        t.Optional[pdt.PositiveFloat],
         MetadataField(
             description=(
                 "The increment between the scale factors at which the volume and "

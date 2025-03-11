@@ -36,7 +36,7 @@ class DcInputModel(
         ),
     ]
     distances: t.Annotated[
-        list[pdt.PositiveFloat] | None,
+        t.Optional[list[pdt.PositiveFloat]],
         MetadataField(
             description=(
                 "The distances, in Ångstrom, at which the dissociation curve should be "

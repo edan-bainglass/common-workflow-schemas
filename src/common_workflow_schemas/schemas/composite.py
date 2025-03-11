@@ -74,7 +74,7 @@ class CompositeOutputsModel(pdt.BaseModel):
         ),
     ]
     total_magnetizations: t.Annotated[
-        list[float] | None,
+        t.Optional[list[float]],
         MetadataField(
             description=(
                 "The total magnetization, in μB, of the final structure of each sub "

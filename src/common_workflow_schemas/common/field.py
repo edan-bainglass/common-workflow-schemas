@@ -4,8 +4,8 @@ import pydantic as pdt
 
 
 def MetadataField(
-    iri: str | None = None,
-    units: str | None = None,
+    iri: t.Optional[str] = None,
+    units: t.Optional[str] = None,
     **kwargs,
 ) -> t.Any:
     """Wraps around `pydantic.Field` with metadata slots.
