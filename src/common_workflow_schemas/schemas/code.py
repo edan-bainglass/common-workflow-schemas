@@ -15,12 +15,19 @@ class Code(pdt.BaseModel):
             description="The unique identifier of the code.",
             iri="https://example.com/schemas/uniqueIdentifier",
         ),
-    ]
-    executed_by: t.Annotated[
-        Executor,
+    ] = None
+    name: t.Annotated[
+        str,
         MetadataField(
-            description="The executor of the code.",
-            iri="https://example.com/schemas/simulation/engine/code/executedBy",
+            description="The name of the code.",
+            iri="https://example.com/schemas/simulation/engine/code/name",
+        ),
+    ]
+    package: t.Annotated[
+        Package,
+        MetadataField(
+            description="The code package.",
+            iri="https://example.com/schemas/simulation/engine/code/package",
         ),
     ]
     executed_on: t.Annotated[
@@ -30,93 +37,28 @@ class Code(pdt.BaseModel):
             iri="https://example.com/schemas/simulation/engine/code/executedOn",
         ),
     ]
-    executable_path: t.Annotated[
-        str,
-        MetadataField(
-            description="The path to the executable code.",
-            iri="https://example.com/schemas/simulation/engine/code/executablePath",
-        ),
-    ]
 
 
-class Executor(pdt.BaseModel):
+class Package(pdt.BaseModel):
     name: t.Annotated[
         str,
         MetadataField(
-            description="The name of the executor.",
-            iri="https://example.com/schemas/simulation/engine/executor/name",
+            description="The name of the package.",
+            iri="https://example.com/schemas/simulation/engine/package/name",
         ),
     ]
-    version: t.Annotated[
-        str,
+    package_manager: t.Annotated[
+        PackageManager,
         MetadataField(
-            description="The version of the executor.",
-            iri="https://example.com/schemas/simulation/engine/executor/version",
-        ),
-    ]
-    availability: t.Annotated[
-        Availability,
-        MetadataField(
-            description="The availability of the executor.",
-            iri="https://example.com/schemas/simulation/engine/executor/availability",
-        ),
-    ]
-
-
-class ExecutionEnvironment(pdt.BaseModel):
-    hostname: t.Annotated[
-        str,
-        MetadataField(
-            description="The hostname of the execution environment.",
-            iri="https://example.com/schemas/simulation/engine/executionEnvironment/hostname",
-        ),
-    ]
-    architecture: t.Annotated[
-        str,
-        MetadataField(
-            description="The architecture of the execution environment.",
-            iri="https://example.com/schemas/simulation/engine/executionEnvironment/architecture",
-        ),
-    ]
-    os: t.Annotated[
-        OperatingSystem,
-        MetadataField(
-            description="The operating system of the execution environment.",
-            iri="https://example.com/schemas/simulation/engine/executionEnvironment/os",
-        ),
-    ]
-
-
-class OperatingSystem(pdt.BaseModel):
-    name: t.Annotated[
-        str,
-        MetadataField(
-            description="The name of the operating system.",
-            iri="https://example.com/schemas/simulation/engine/executionEnvironment/os/name",
+            description="The package manager from which to obtain the package.",
+            iri="https://example.com/schemas/simulation/engine/package/packageManager",
         ),
     ]
     metadata: t.Annotated[
         dict,
         MetadataField(
-            description="The metadata of the operating system.",
-            iri="https://example.com/schemas/simulation/engine/executionEnvironment/os/metadata",
-        ),
-    ]
-
-
-class Availability(pdt.BaseModel):
-    package_manager: t.Annotated[
-        PackageManager,
-        MetadataField(
-            description="The package manager used to install the executor.",
-            iri="https://example.com/schemas/simulation/engine/executor/availability/packageManager",
-        ),
-    ]
-    package: t.Annotated[
-        str,
-        MetadataField(
-            description="The package name of the executor.",
-            iri="https://example.com/schemas/simulation/engine/executor/availability/package",
+            description="The metadata of the package.",
+            iri="https://example.com/schemas/simulation/engine/package/metadata",
         ),
     ]
 
@@ -126,13 +68,30 @@ class PackageManager(pdt.BaseModel):
         str,
         MetadataField(
             description="The name of the package manager.",
-            iri="https://example.com/schemas/simulation/engine/executor/availability/packageManager/name",
+            iri="https://example.com/schemas/simulation/engine/package/packageManager/name",
         ),
     ]
-    version: t.Annotated[
-        str,
+    metadata: t.Annotated[
+        dict,
         MetadataField(
-            description="The version of the package manager.",
-            iri="https://example.com/schemas/simulation/engine/executor/availability/packageManager/version",
+            description="The metadata of the package manager.",
+            iri="https://example.com/schemas/simulation/engine/package/packageManager/metadata",
+        ),
+    ]
+
+
+class ExecutionEnvironment(pdt.BaseModel):
+    name: t.Annotated[
+        t.Optional[str],
+        MetadataField(
+            description="The name of the execution environment.",
+            iri="https://example.com/schemas/simulation/engine/executionEnvironment/name",
+        ),
+    ] = None
+    metadata: t.Annotated[
+        dict,
+        MetadataField(
+            description="The metadata of the execution environment.",
+            iri="https://example.com/schemas/simulation/engine/executionEnvironment/metadata",
         ),
     ]
