@@ -3,17 +3,39 @@ import typing as t
 import pydantic as pdt
 from optimade.models import StructureResource
 
+from common_workflow_schemas.common.context import BASE_PREFIX
 from common_workflow_schemas.common.field import MetadataField
-from common_workflow_schemas.common.mixins import WithArbitraryTypes
+from common_workflow_schemas.common.mixins import SemanticModel, WithArbitraryTypes
 from common_workflow_schemas.common.types import FloatArray, UniqueIdentifier
 
 from .engine import Engine
 
 
-class CommonRelaxInputsModel(
-    pdt.BaseModel,
-    WithArbitraryTypes,
-):
+TotalEnergy = t.Annotated[
+    float,
+    MetadataField(
+        description=(
+            "The total energy associated to the relaxed structure (or initial "
+            "structure in case no relaxation is performed)."
+        ),
+        iri=f"{BASE_PREFIX}/scf/TotalEnergy",
+        units="eV",
+    ),
+]
+
+TotalMagnetization = t.Annotated[
+    float,
+    MetadataField(
+        description="The total magnetization of a system.",
+        iri=f"{BASE_PREFIX}/scf/TotalMagnetization",
+        units="μB",
+    ),
+]
+
+
+class CommonRelaxInputs(SemanticModel):
+    _IRI = f"{BASE_PREFIX}/common/relax/Input"
+
     engines: t.Annotated[
         dict[str, Engine],
         MetadataField(
@@ -21,7 +43,7 @@ class CommonRelaxInputsModel(
                 "A dictionary specifying the codes and the corresponding computational "
                 "resources for each step of the workflow."
             ),
-            iri="https://example.com/schemas/simulation/engines",
+            container=set,
         ),
     ]
     protocol: t.Annotated[
@@ -40,7 +62,7 @@ class CommonRelaxInputsModel(
                 "more specifically, they depend on the implementation choices of the "
                 "corresponding AiiDA plugin."
             ),
-            iri="https://example.com/schemas/simulation/scf/protocol",
+            iri=f"{BASE_PREFIX}/scf/Protocol",
         ),
     ]
     relax_type: t.Annotated[
@@ -74,7 +96,7 @@ class CommonRelaxInputsModel(
                 "optimizing the structure. Not all options are available for each "
                 'code. The "none" and "positions" options are shared by all codes.'
             ),
-            iri="https://example.com/schemas/simulation/scf/relax/relaxType",
+            iri=f"{BASE_PREFIX}/scf/RelaxType",
         ),
     ]
     threshold_forces: t.Annotated[
@@ -85,7 +107,7 @@ class CommonRelaxInputsModel(
                 "in eV/Å. If not specified, the protocol specification will select an "
                 "appropriate value."
             ),
-            iri="https://example.com/schemas/simulation/scf/relax/thresholdForces",
+            iri=f"{BASE_PREFIX}/scf/ThresholdForces",
             units="eV/Å",
         ),
     ] = None
@@ -97,7 +119,7 @@ class CommonRelaxInputsModel(
                 "in eV/Å^3. If not specified, the protocol specification will select "
                 "an appropriate value."
             ),
-            iri="https://example.com/schemas/simulation/scf/relax/thresholdStress",
+            iri=f"{BASE_PREFIX}/scf/ThresholdStress",
             units="eV/Å^3",
         ),
     ] = None
@@ -116,7 +138,7 @@ class CommonRelaxInputsModel(
                 "extended systems. In case such option is not specified, the "
                 "calculation is assumed to be metallic which is the safest assumption."
             ),
-            iri="https://example.com/schemas/simulation/scf/electronicType",
+            iri=f"{BASE_PREFIX}/scf/ElectronicType",
         ),
     ] = None
     spin_type: t.Annotated[
@@ -134,7 +156,7 @@ class CommonRelaxInputsModel(
                 "magnetism and spin-orbit coupling. The default is to run the "
                 "calculation without spin polarization."
             ),
-            iri="https://example.com/schemas/simulation/scf/spinType",
+            iri=f"{BASE_PREFIX}/scf/SpinType",
         ),
     ] = None
     magnetization_per_site: t.Annotated[
@@ -151,7 +173,7 @@ class CommonRelaxInputsModel(
                 "None value signals that the implementation should automatically "
                 "decide an appropriate default initial magnetization."
             ),
-            iri="https://example.com/schemas/simulation/structure/site/magnetization",
+            iri=f"{BASE_PREFIX}/Structure/Site/Magnetization",
             units="μB",
         ),
     ] = None
@@ -163,30 +185,37 @@ class CommonRelaxInputsModel(
                 "of inputs which ensure that results of the new process (to be run) ",
                 "can be directly compared to the `reference_process`.",
             ),
-            iri="https://example.com/schemas/simulation/referenceProcess",
+            iri=f"{BASE_PREFIX}/ReferenceProcess",
         ),
     ] = None
 
 
-class RelaxInputsModel(CommonRelaxInputsModel):
+class RelaxInputs(
+    CommonRelaxInputs,
+    WithArbitraryTypes,
+):
+    _IRI = f"{BASE_PREFIX}/relax/Input"
+
     structure: t.Annotated[
         StructureResource,
         MetadataField(
             description="The structure to relax.",
-            iri="https://example.com/schemas/simulation/structure",
+            iri=f"{BASE_PREFIX}/Structure",
         ),
     ]
 
 
-class RelaxOutputsModel(
-    pdt.BaseModel,
+class RelaxOutputs(
+    SemanticModel,
     WithArbitraryTypes,
 ):
+    _IRI = f"{BASE_PREFIX}/relax/Output"
+
     forces: t.Annotated[
         FloatArray,
         MetadataField(
             description="The forces on the atoms.",
-            iri="https://example.com/schemas/simulation/relax/forces",
+            iri=f"{BASE_PREFIX}/Forces",
             units="eV/Å",
         ),
     ]
@@ -194,44 +223,27 @@ class RelaxOutputsModel(
         t.Optional[StructureResource],
         MetadataField(
             description="The relaxed structure, if relaxation was performed.",
-            iri="https://example.com/schemas/simulation/relax/structure",
+            iri=f"{BASE_PREFIX}/Structure",
             units="Å",
         ),
     ] = None
-    total_energy: t.Annotated[
-        float,
-        MetadataField(
-            description=(
-                "The total energy in eV associated to the relaxed structure (or "
-                "initial structure in case no relaxation is performed)."
-            ),
-            iri="https://example.com/schemas/simulation/scf/total_energy",
-            units="eV",
-        ),
-    ]
+    total_energy: TotalEnergy
     stress: t.Annotated[
         t.Optional[FloatArray],
         MetadataField(
             description=(
                 "The final stress tensor in eV/Å^3, if relaxation was performed."
             ),
-            iri="https://example.com/schemas/simulation/relax/stress",
+            iri=f"{BASE_PREFIX}/relax/Stress",
             units="eV/Å^3",
         ),
     ]
-    total_magnetization: t.Annotated[
-        t.Optional[float],
-        MetadataField(
-            description="The total magnetization of the system in μB.",
-            iri="https://example.com/schemas/simulation/totalMagnetization",
-            units="μB",
-        ),
-    ] = None
+    total_magnetization: t.Optional[TotalMagnetization] = None
     hartree_potential: t.Annotated[
         t.Optional[FloatArray],
         MetadataField(
             description="The Hartree potential.",
-            iri="https://example.com/schemas/simulation/scf/hartreePotential",
+            iri=f"{BASE_PREFIX}/scf/HartreePotential",
             units="Rydberg",
         ),
     ] = None
@@ -239,7 +251,7 @@ class RelaxOutputsModel(
         t.Optional[FloatArray],
         MetadataField(
             description="The total magnetization of the system in μB.",
-            iri="https://example.com/schemas/simulation/scf/chargeDensity",
+            iri=f"{BASE_PREFIX}/scf/ChargeDensity",
             units="Rydberg",
         ),
     ] = None

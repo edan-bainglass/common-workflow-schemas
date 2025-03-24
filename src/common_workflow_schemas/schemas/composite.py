@@ -3,12 +3,15 @@ import typing as t
 import pydantic as pdt
 from aiida.plugins import WorkflowFactory
 
+from common_workflow_schemas.common.context import BASE_PREFIX
 from common_workflow_schemas.common.field import MetadataField
+from common_workflow_schemas.common.mixins import SemanticModel
+from common_workflow_schemas.schemas.relax import TotalEnergy, TotalMagnetization
 
-T = t.TypeVar("T", bound=pdt.BaseModel)
+SM = t.TypeVar("SM", bound=SemanticModel)
 
 
-class CompositeInputsModel(pdt.BaseModel, t.Generic[T]):
+class CompositeInputs(t.Generic[SM]):
     sub_process_class: t.Annotated[
         str,
         MetadataField(
@@ -19,17 +22,17 @@ class CompositeInputsModel(pdt.BaseModel, t.Generic[T]):
                 "aiida.workflows`. Any entry point that starts with "
                 "`common_workflows.relax.` can be used."
             ),
-            iri="https://example.com/schemas/simulation/composite/sub_process_class",
+            iri=f"{BASE_PREFIX}/composite/SubProcessClass",
         ),
     ]
     generator_inputs: t.Annotated[
-        T,
+        SM,
         MetadataField(
             description=(
                 "The inputs to pass to the generator process. If not specified, the "
                 "default inputs will be used."
             ),
-            iri="https://example.com/schemas/simulation/composite/generator_inputs",
+            iri=f"{BASE_PREFIX}/composite/GeneratorInputs",
         ),
     ]
     sub_process: t.Annotated[
@@ -40,7 +43,7 @@ class CompositeInputsModel(pdt.BaseModel, t.Generic[T]):
                 "`generator_inputs`. The inputs must be valid ports of the "
                 "`sub_process_class`."
             ),
-            iri="https://example.com/schemas/simulation/composite/sub_process",
+            iri=f"{BASE_PREFIX}/composite/SubProcess",
         ),
     ]
 
@@ -64,23 +67,21 @@ class CompositeInputsModel(pdt.BaseModel, t.Generic[T]):
                 )
 
 
-class CompositeOutputsModel(pdt.BaseModel):
+class CompositeOutputs(SemanticModel):
     total_energies: t.Annotated[
-        list[float],
+        list[TotalEnergy],
         MetadataField(
             description="The computed total energy for each sub-process.",
-            iri="https://example.com/schemas/simulation/composite/total_energies",
-            units="eV",
+            container=list,
         ),
     ]
     total_magnetizations: t.Annotated[
-        t.Optional[list[float]],
+        t.Optional[list[TotalMagnetization]],
         MetadataField(
             description=(
-                "The total magnetization, in μB, of the final structure of each sub "
-                "process, if returned by the underlying common relax workflow."
+                "The total magnetization of the final structure of each sub process, "
+                "if returned by the underlying common relax workflow."
             ),
-            iri="https://example.com/schemas/simulation/composite/total_magnetizations",
-            units="μB",
+            container=list,
         ),
     ]

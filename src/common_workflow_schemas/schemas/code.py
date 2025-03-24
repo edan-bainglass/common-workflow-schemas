@@ -1,97 +1,103 @@
-from __future__ import annotations
-
 import typing as t
 
-import pydantic as pdt
-
+from common_workflow_schemas.common.context import BASE_PREFIX
 from common_workflow_schemas.common.field import MetadataField
+from common_workflow_schemas.common.mixins import SemanticModel
 from common_workflow_schemas.common.types import UniqueIdentifier
 
 
-class Code(pdt.BaseModel):
-    identifier: t.Annotated[
-        t.Optional[UniqueIdentifier],
-        MetadataField(
-            description="The unique identifier of the code.",
-            iri="https://example.com/schemas/uniqueIdentifier",
-        ),
-    ] = None
-    name: t.Annotated[
-        str,
-        MetadataField(
-            description="The name of the code.",
-            iri="https://example.com/schemas/simulation/engine/code/name",
-        ),
-    ]
-    package: t.Annotated[
-        Package,
-        MetadataField(
-            description="The code package.",
-            iri="https://example.com/schemas/simulation/engine/code/package",
-        ),
-    ]
-    executed_on: t.Annotated[
-        ExecutionEnvironment,
-        MetadataField(
-            description="The execution environment of the code.",
-            iri="https://example.com/schemas/simulation/engine/code/executedOn",
-        ),
-    ]
+class PackageManager(SemanticModel):
+    _IRI = f"{BASE_PREFIX}/Engine/Code/Package/PackageManager"
 
-
-class Package(pdt.BaseModel):
-    name: t.Annotated[
-        str,
-        MetadataField(
-            description="The name of the package.",
-            iri="https://example.com/schemas/simulation/engine/package/name",
-        ),
-    ]
-    package_manager: t.Annotated[
-        PackageManager,
-        MetadataField(
-            description="The package manager from which to obtain the package.",
-            iri="https://example.com/schemas/simulation/engine/package/packageManager",
-        ),
-    ]
-    metadata: t.Annotated[
-        dict,
-        MetadataField(
-            description="The metadata of the package.",
-            iri="https://example.com/schemas/simulation/engine/package/metadata",
-        ),
-    ]
-
-
-class PackageManager(pdt.BaseModel):
     name: t.Annotated[
         str,
         MetadataField(
             description="The name of the package manager.",
-            iri="https://example.com/schemas/simulation/engine/package/packageManager/name",
+            iri=f"{_IRI}/Name",
         ),
     ]
     metadata: t.Annotated[
         dict,
         MetadataField(
             description="The metadata of the package manager.",
-            iri="https://example.com/schemas/simulation/engine/package/packageManager/metadata",
+            iri=f"{_IRI}/Metadata",
         ),
     ]
 
 
-class ExecutionEnvironment(pdt.BaseModel):
+class Package(SemanticModel):
+    _IRI = f"{BASE_PREFIX}/Engine/Code/Package"
+
+    name: t.Annotated[
+        str,
+        MetadataField(
+            description="The name of the package.",
+            iri=f"{_IRI}/Name",
+        ),
+    ]
+    package_manager: t.Annotated[
+        PackageManager,
+        MetadataField(
+            description="The package manager from which to obtain the package.",
+            iri=f"{_IRI}/PackageManager",
+        ),
+    ]
+    metadata: t.Annotated[
+        dict,
+        MetadataField(
+            description="The metadata of the package.",
+            iri=f"{_IRI}/Metadata",
+        ),
+    ]
+
+
+class ExecutionEnvironment(SemanticModel):
+    _IRI: str = f"{BASE_PREFIX}/Engine/Code/ExecutionEnvironment"
+
     name: t.Annotated[
         t.Optional[str],
         MetadataField(
             description="The name of the execution environment.",
-            iri="https://example.com/schemas/simulation/engine/executionEnvironment/name",
+            iri=f"{_IRI}/Name",
         ),
     ] = None
     metadata: t.Annotated[
         dict,
         MetadataField(
             description="The metadata of the execution environment.",
-            iri="https://example.com/schemas/simulation/engine/executionEnvironment/metadata",
+            iri=f"{_IRI}/Metadata",
+        ),
+    ]
+
+
+class Code(SemanticModel):
+    _IRI: str = f"{BASE_PREFIX}/Engine/Code"
+
+    identifier: t.Annotated[
+        t.Optional[UniqueIdentifier],
+        MetadataField(
+            description="The unique identifier of the code.",
+            iri=f"{BASE_PREFIX}/UniqueIdentifier",
+        ),
+    ] = None
+    name: t.Annotated[
+        str,
+        MetadataField(
+            description="The name of the code.",
+            iri=f"{_IRI}/Name",
+        ),
+    ]
+    package: t.Annotated[
+        Package,
+        MetadataField(
+            description="The code package.",
+            iri=f"{_IRI}/Package",
+        ),
+    ]
+    executionEnvironment: t.Annotated[
+        ExecutionEnvironment,
+        MetadataField(
+            description="The execution environment of the code.",
+            iri=f"{_IRI}/ExecutionEnvironment",
         ),
     ]

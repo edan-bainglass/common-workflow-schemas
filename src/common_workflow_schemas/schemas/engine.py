@@ -1,18 +1,20 @@
 import typing as t
 
-import pydantic as pdt
-
+from common_workflow_schemas.common.context import BASE_PREFIX
 from common_workflow_schemas.common.field import MetadataField
+from common_workflow_schemas.common.mixins import SemanticModel
 
 from .code import Code
 
 
-class Engine(pdt.BaseModel):
+class Engine(SemanticModel):
+    _IRI = f"{BASE_PREFIX}/Engine"
+
     code: t.Annotated[
         Code,
         MetadataField(
             description="A code that can execute the engine workflow.",
-            iri="https://example.com/schemas/simulation/engine/code",
+            iri=f"{_IRI}/Code",
         ),
     ]
     options: t.Annotated[
@@ -23,6 +25,6 @@ class Engine(pdt.BaseModel):
                 "computational resources, parallelization, etc. These usually depend ",
                 "on the job scheduler of the machine on which the code is executed.",
             ),
-            iri="https://example.com/schemas/simulation/engine/options",
+            iri=f"{_IRI}/Options",
         ),
     ]

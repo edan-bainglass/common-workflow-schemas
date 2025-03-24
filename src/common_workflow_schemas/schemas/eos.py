@@ -3,14 +3,17 @@ import typing as t
 import pydantic as pdt
 from optimade.models import StructureResource
 
+from common_workflow_schemas.common.context import BASE_PREFIX
 from common_workflow_schemas.common.field import MetadataField
-from common_workflow_schemas.common.mixins import WithArbitraryTypes
+from common_workflow_schemas.common.mixins import SemanticModel, WithArbitraryTypes
 
-from .composite import CompositeInputsModel, CompositeOutputsModel
-from .relax import CommonRelaxInputsModel
+from .composite import CompositeInputs, CompositeOutputs
+from .relax import CommonRelaxInputs
 
 
-class EosCommonRelaxInputsModel(CommonRelaxInputsModel):
+class EosCommonRelaxInputs(CommonRelaxInputs):
+    _IRI = f"{BASE_PREFIX}/common/relax/eos/Input"
+
     relax_type: t.Annotated[
         t.Literal[
             "none",
@@ -23,21 +26,23 @@ class EosCommonRelaxInputsModel(CommonRelaxInputsModel):
                 "The type of relaxation to perform, limited to fixed-volume "
                 "relaxations."
             ),
-            # TODO should iri extend the base relax_type iri?
-            iri="https://example.com/schemas/simulation/eos/relaxType",
+            iri=f"{BASE_PREFIX}/scf/RelaxType",
         ),
     ]
 
 
-class EosInputsModel(
-    CompositeInputsModel[EosCommonRelaxInputsModel],
+class EosInputs(
+    CompositeInputs[EosCommonRelaxInputs],
+    SemanticModel,
     WithArbitraryTypes,
 ):
+    _IRI = f"{BASE_PREFIX}/eos/Input"
+
     structure: t.Annotated[
         StructureResource,
         MetadataField(
             description="The input structure",
-            iri="https://example.com/schemas/simulation/structure",
+            iri=f"{BASE_PREFIX}/Structure",
         ),
     ]
     scale_factors: t.Annotated[
@@ -49,7 +54,7 @@ class EosInputsModel(
                 "factors can be also set via the `scale_count` and `scale_increment` "
                 "inputs."
             ),
-            iri="https://example.com/schemas/simulation/eos/scaleFactors",
+            iri=f"{BASE_PREFIX}/eos/ScaleFactors",
         ),
     ]
     scale_count: t.Annotated[
@@ -61,7 +66,7 @@ class EosInputsModel(
                 "`scale_increment`. This input is optional since the scale factors can "
                 "be also set via the `scale_factors` input."
             ),
-            iri="https://example.com/schemas/simulation/eos/scaleCount",
+            iri=f"{BASE_PREFIX}/eos/ScaleCount",
         ),
     ]
     scale_increment: t.Annotated[
@@ -73,7 +78,7 @@ class EosInputsModel(
                 "with `scale_count`. This input is optional since the scale factors "
                 "can be also set via the `scale_factors` input."
             ),
-            iri="https://example.com/schemas/simulation/eos/scaleIncrement",
+            iri=f"{BASE_PREFIX}/eos/ScaleIncrement",
         ),
     ]
 
@@ -99,14 +104,15 @@ class EosInputsModel(
         return scale_factors
 
 
-class EosOutputsModel(
-    CompositeOutputsModel,
+class EosOutputs(
+    CompositeOutputs,
+    SemanticModel,
     WithArbitraryTypes,
 ):
     structures: t.Annotated[
         list[StructureResource],
         MetadataField(
             description="The list of relaxed structures.",
-            iri="https://example.com/schemas/simulation/eos/structures",
+            container=list,
         ),
     ]

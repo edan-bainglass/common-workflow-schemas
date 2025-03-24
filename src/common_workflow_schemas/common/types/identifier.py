@@ -3,6 +3,7 @@ import uuid
 
 import pydantic as pdt
 
+from common_workflow_schemas.common.context import BASE_PREFIX
 from common_workflow_schemas.common.field import MetadataField
 
 UUIDHex = t.Annotated[
@@ -14,8 +15,8 @@ UUIDHex = t.Annotated[
 UniqueIdentifier = t.Annotated[
     t.Union[UUIDHex, pdt.UUID4],
     MetadataField(
-        default=None,
         description="Unique UUID identifier",
-        iri="https://example.com/schemas/uuid",
+        iri=f"{BASE_PREFIX}/UUID",
+        default=None,
     ),
 ]

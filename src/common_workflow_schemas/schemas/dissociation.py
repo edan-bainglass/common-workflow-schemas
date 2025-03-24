@@ -3,14 +3,27 @@ import typing as t
 import pydantic as pdt
 from optimade.models import StructureResource
 
+from common_workflow_schemas.common.context import BASE_PREFIX
 from common_workflow_schemas.common.field import MetadataField
-from common_workflow_schemas.common.mixins import WithArbitraryTypes
+from common_workflow_schemas.common.mixins import SemanticModel, WithArbitraryTypes
 
-from .composite import CompositeInputsModel, CompositeOutputsModel
-from .relax import CommonRelaxInputsModel
+from .composite import CompositeInputs, CompositeOutputs
+from .relax import CommonRelaxInputs
 
 
-class DcCommonRelaxInputsModel(CommonRelaxInputsModel):
+BondDistance = t.Annotated[
+    pdt.PositiveFloat,
+    MetadataField(
+        description="A bond distance in Ångstrom",
+        iri=f"{BASE_PREFIX}/dc/Distance",
+        units="Å",
+    ),
+]
+
+
+class DcCommonRelaxInputs(CommonRelaxInputs):
+    _IRI = f"{BASE_PREFIX}/common/relax/dc/Input"
+
     relax_type: t.Annotated[
         t.Literal["none"],
         MetadataField(
@@ -18,33 +31,35 @@ class DcCommonRelaxInputsModel(CommonRelaxInputsModel):
             description=(
                 "This field is fixed to 'none' denoting a single-point calculation."
             ),
-            iri="https://example.com/schemas/simulation/dc/relaxType",
+            iri=f"{BASE_PREFIX}/scf/RelaxType",
             frozen=True,
         ),
     ] = "none"
 
 
-class DcInputModel(
-    CompositeInputsModel[DcCommonRelaxInputsModel],
+class DcInput(
+    CompositeInputs[DcCommonRelaxInputs],
+    SemanticModel,
     WithArbitraryTypes,
 ):
+    _IRI = f"{BASE_PREFIX}/dc/Input"
+
     molecule: t.Annotated[
         StructureResource,
         MetadataField(
             description="The input molecule",
-            iri="https://example.com/schemas/simulation/molecule",
+            iri=f"{BASE_PREFIX}/Molecule",
         ),
     ]
     distances: t.Annotated[
-        t.Optional[list[pdt.PositiveFloat]],
+        t.Optional[list[BondDistance]],
         MetadataField(
             description=(
                 "The distances, in Ångstrom, at which the dissociation curve should be "
                 "computed. This input is optional since the distances can be also set "
                 "via the `distance_count` input."
             ),
-            iri="https://example.com/schemas/simulation/dc/distances",
-            units="Å",
+            container=list,
         ),
     ] = None
     distance_count: t.Annotated[
@@ -57,7 +72,7 @@ class DcInputModel(
                 "This input is optional since the distances can be also set via the "
                 "`distances` input."
             ),
-            iri="https://example.com/schemas/simulation/dc/distanceCount",
+            iri=f"{BASE_PREFIX}/dc/DistanceCount",
         ),
     ] = 20
     distance_min: t.Annotated[
@@ -70,7 +85,7 @@ class DcInputModel(
                 "`distance_count`. This input is optional since the distances can be  "
                 "also set via the `distances` input."
             ),
-            iri="https://example.com/schemas/simulation/dc/distanceMin",
+            iri=f"{BASE_PREFIX}/dc/DistanceMin",
             units="Å",
         ),
     ] = 0.5
@@ -84,7 +99,7 @@ class DcInputModel(
                 "`distance_count`. This input is optional since the distances can be "
                 "also set via the `distances` input."
             ),
-            iri="https://example.com/schemas/simulation/dc/distanceMax",
+            iri=f"{BASE_PREFIX}/dc/DistanceMax",
             units="Å",
         ),
     ] = 3
@@ -98,15 +113,16 @@ class DcInputModel(
         return self
 
 
-class DcOutputModel(CompositeOutputsModel):
+class DcOutput(CompositeOutputs):
+    _IRI = f"{BASE_PREFIX}/dc/Output"
+
     distances: t.Annotated[
-        list[pdt.PositiveFloat],
+        list[BondDistance],
         MetadataField(
             description=(
                 "The distances, in Ångstrom, at which the dissociation curve was "
                 "computed."
             ),
-            iri="https://example.com/schemas/simulation/dc/distances",
-            units="Å",
+            container=list,
         ),
     ]
