@@ -4,6 +4,7 @@ import pydantic as pdt
 from pydantic._internal._model_construction import ModelMetaclass
 
 from common_workflow_schemas.common.context import build_context
+from common_workflow_schemas.common.serializers.structure import serialize_model
 
 
 class ModelConfigMetaclass(ModelMetaclass):
@@ -55,7 +56,6 @@ class SemanticMetaclass(ModelConfigMetaclass):
                     "@id": class_iri,
                 },
             )
-        # TODO add <object-IRI/field-name> IRI to model fields that do not provide one
         return super().__new__(cls, name, bases, _dict)
 
 
@@ -64,7 +64,10 @@ class SemanticModel(BaseModel, metaclass=SemanticMetaclass):
 
     def model_oo_ld(self):
         schema = self.model_json_schema()
+        object_type = self.__class__.__name__
         return {
-            "@context": build_context(schema),
+            "@context": build_context(object_type, schema),
             **schema,
+            "@type": object_type,
+            **serialize_model(self),
         }
