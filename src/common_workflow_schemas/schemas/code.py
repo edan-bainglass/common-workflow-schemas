@@ -7,7 +7,7 @@ from common_workflow_schemas.common.types import UniqueIdentifier
 
 
 class PackageManager(SemanticModel):
-    _IRI = f"{BASE_PREFIX}/Engine/Code/Package/PackageManager"
+    _IRI = f"{BASE_PREFIX}/PackageManager"
 
     name: t.Annotated[
         str,
@@ -26,7 +26,7 @@ class PackageManager(SemanticModel):
 
 
 class Package(SemanticModel):
-    _IRI = f"{BASE_PREFIX}/Engine/Code/Package"
+    _IRI = f"{BASE_PREFIX}/Package"
 
     name: t.Annotated[
         str,
@@ -52,7 +52,7 @@ class Package(SemanticModel):
 
 
 class ExecutionEnvironment(SemanticModel):
-    _IRI: str = f"{BASE_PREFIX}/Engine/Code/ExecutionEnvironment"
+    _IRI: str = f"{BASE_PREFIX}/ExecutionEnvironment"
 
     name: t.Annotated[
         t.Optional[str],
@@ -71,7 +71,7 @@ class ExecutionEnvironment(SemanticModel):
 
 
 class Code(SemanticModel):
-    _IRI: str = f"{BASE_PREFIX}/Engine/Code"
+    _IRI: str = f"{BASE_PREFIX}/Code"
 
     identifier: t.Annotated[
         t.Optional[UniqueIdentifier],

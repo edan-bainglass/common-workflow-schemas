@@ -22,15 +22,13 @@ BondDistance = t.Annotated[
 
 
 class DcCommonRelaxInputs(CommonRelaxInputs):
-    _IRI = f"{BASE_PREFIX}/common/relax/dc/Input"
+    _IRI = f"{BASE_PREFIX}/relax/dc/Input"
 
     relax_type: t.Annotated[
         t.Literal["none"],
         MetadataField(
             default="none",
-            description=(
-                "This field is fixed to 'none' denoting a single-point calculation."
-            ),
+            description="This field is fixed to 'none' denoting a single-point calculation.",
             iri=f"{BASE_PREFIX}/scf/RelaxType",
             frozen=True,
         ),
@@ -54,11 +52,7 @@ class DcInput(
     distances: t.Annotated[
         t.Optional[list[BondDistance]],
         MetadataField(
-            description=(
-                "The distances, in Ångstrom, at which the dissociation curve should be "
-                "computed. This input is optional since the distances can be also set "
-                "via the `distance_count` input."
-            ),
+            description="The distances, in Ångstrom, at which the dissociation curve should be computed. This input is optional since the distances can be also set via the `distance_count` input.",
             container=list,
         ),
     ] = None
@@ -66,12 +60,7 @@ class DcInput(
         pdt.PositiveInt,
         MetadataField(
             default=20,
-            description=(
-                "The number of distances at which the dissociation curve should be "
-                "computed, used in conjunction with `distance_min` and `distance_max`. "
-                "This input is optional since the distances can be also set via the "
-                "`distances` input."
-            ),
+            description="The number of distances at which the dissociation curve should be computed, used in conjunction with `distance_min` and `distance_max`. This input is optional since the distances can be also set via the `distances` input.",
             iri=f"{BASE_PREFIX}/dc/DistanceCount",
         ),
     ] = 20
@@ -79,12 +68,7 @@ class DcInput(
         pdt.PositiveFloat,
         MetadataField(
             default=0.5,
-            description=(
-                "The minimum distance, in Ångstrom, at which the dissociation curve  "
-                "should be computed, used in conjunction with `distance_max` and  "
-                "`distance_count`. This input is optional since the distances can be  "
-                "also set via the `distances` input."
-            ),
+            description="The minimum distance, in Ångstrom, at which the dissociation curve should be computed, used in conjunction with `distance_max` and `distance_count`. This input is optional since the distances can be also set via the `distances` input.",
             iri=f"{BASE_PREFIX}/dc/DistanceMin",
             units="Å",
         ),
@@ -93,12 +77,7 @@ class DcInput(
         pdt.PositiveFloat,
         MetadataField(
             default=3,
-            description=(
-                "The maximum distance, in Ångstrom, at which the dissociation curve "
-                "should be computed, used in conjunction with `distance_min` and "
-                "`distance_count`. This input is optional since the distances can be "
-                "also set via the `distances` input."
-            ),
+            description="The maximum distance, in Ångstrom, at which the dissociation curve should be computed, used in conjunction with `distance_min` and `distance_count`. This input is optional since the distances can be also set via the `distances` input.",
             iri=f"{BASE_PREFIX}/dc/DistanceMax",
             units="Å",
         ),
@@ -119,10 +98,7 @@ class DcOutput(CompositeOutputs):
     distances: t.Annotated[
         list[BondDistance],
         MetadataField(
-            description=(
-                "The distances, in Ångstrom, at which the dissociation curve was "
-                "computed."
-            ),
+            description="The distances, in Ångstrom, at which the dissociation curve was computed.",
             container=list,
         ),
     ]

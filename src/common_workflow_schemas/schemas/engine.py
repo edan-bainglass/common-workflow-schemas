@@ -14,17 +14,12 @@ class Engine(SemanticModel):
         Code,
         MetadataField(
             description="A code that can execute the engine workflow.",
-            iri=f"{_IRI}/Code",
         ),
     ]
     options: t.Annotated[
         dict[str, t.Any],
         MetadataField(
-            description=(
-                "A dictionary of metadata options for the engine, such as ",
-                "computational resources, parallelization, etc. These usually depend ",
-                "on the job scheduler of the machine on which the code is executed.",
-            ),
+            description="A dictionary of metadata options for the engine, such as computational resources, parallelization, etc. These usually depend on the job scheduler of the machine on which the code is executed.",
             iri=f"{_IRI}/Options",
         ),
     ]

@@ -12,7 +12,7 @@ from .relax import CommonRelaxInputs
 
 
 class EosCommonRelaxInputs(CommonRelaxInputs):
-    _IRI = f"{BASE_PREFIX}/common/relax/eos/Input"
+    _IRI = f"{BASE_PREFIX}/relax/eos/Input"
 
     relax_type: t.Annotated[
         t.Literal[
@@ -22,10 +22,7 @@ class EosCommonRelaxInputs(CommonRelaxInputs):
             "positions_shape",
         ],
         MetadataField(
-            description=(
-                "The type of relaxation to perform, limited to fixed-volume "
-                "relaxations."
-            ),
+            description="The type of relaxation to perform, limited to fixed-volume relaxations.",
             iri=f"{BASE_PREFIX}/scf/RelaxType",
         ),
     ]
@@ -48,36 +45,21 @@ class EosInputs(
     scale_factors: t.Annotated[
         t.Optional[list[pdt.PositiveFloat]],
         MetadataField(
-            description=(
-                "The scale factors at which the volume and total energy of the "
-                "structure should be computed. This input is optional since the scale "
-                "factors can be also set via the `scale_count` and `scale_increment` "
-                "inputs."
-            ),
+            description="The scale factors at which the volume and total energy of the structure should be computed. This input is optional since the scale factors can be also set via the `scale_count` and `scale_increment` inputs.",
             iri=f"{BASE_PREFIX}/eos/ScaleFactors",
         ),
     ]
     scale_count: t.Annotated[
         t.Optional[pdt.PositiveInt],
         MetadataField(
-            description=(
-                "The number of scale factors at which the volume and total energy of "
-                "the structure should be computed, used in conjunction with "
-                "`scale_increment`. This input is optional since the scale factors can "
-                "be also set via the `scale_factors` input."
-            ),
+            description="The number of scale factors at which the volume and total energy of the structure should be computed, used in conjunction with `scale_increment`. This input is optional since the scale factors can be also set via the `scale_factors` input.",
             iri=f"{BASE_PREFIX}/eos/ScaleCount",
         ),
     ]
     scale_increment: t.Annotated[
         t.Optional[pdt.PositiveFloat],
         MetadataField(
-            description=(
-                "The increment between the scale factors at which the volume and "
-                "total energy of the structure should be computed, used in conjunction "
-                "with `scale_count`. This input is optional since the scale factors "
-                "can be also set via the `scale_factors` input."
-            ),
+            description="The increment between the scale factors at which the volume and total energy of the structure should be computed, used in conjunction with `scale_count`. This input is optional since the scale factors can be also set via the `scale_factors` input.",
             iri=f"{BASE_PREFIX}/eos/ScaleIncrement",
         ),
     ]
@@ -86,8 +68,7 @@ class EosInputs(
     def _validate_scale_factors_inputs(self, data: dict):
         if not self.scale_factors and not (self.scale_count and self.scale_increment):
             raise ValueError(
-                "Either `scale_factors` or both `scale_count` and `scale_increment` "
-                "should be specified."
+                "Either `scale_factors` or both `scale_count` and `scale_increment` should be specified."
             )
         return self
 
