@@ -4,7 +4,7 @@ import pydantic as pdt
 from pydantic._internal._model_construction import ModelMetaclass
 
 from common_workflow_schemas.common.context import build_context
-from common_workflow_schemas.common.serializers.structure import serialize_model
+from common_workflow_schemas.common.serializers import serialize_model
 
 
 class ModelConfigMetaclass(ModelMetaclass):
